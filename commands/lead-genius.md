@@ -163,25 +163,47 @@ Spawn the company-synthesizer agent:
 
 Wait for completion.
 
-## PHASE 7: DECISION MAKER RESEARCH (PARALLEL)
+## PHASE 7: PARALLEL BRANCH DISPATCH
+
+After company synthesis, the pipeline forks into two parallel branches.
+
+### Pre-dispatch: Install deck dependencies
+
+Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
+
+### Branch dispatch
 
 First, read ./{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
 
-Split companies across 5 researchers evenly. For example with 10 companies:
+Split companies across 5 DM researchers evenly. For example with 10 companies:
 - Researcher 01: companies 1-2
 - Researcher 02: companies 3-4
 - Researcher 03: companies 5-6
 - Researcher 04: companies 7-8
 - Researcher 05: companies 9-10
 
-Spawn 5 dm-researcher agents SIMULTANEOUSLY in a single message with 5 Task calls:
+Spawn ALL 7 agents SIMULTANEOUSLY in a single message with 7 Task calls:
+
+**Branch A — Marketing (2 agents):**
+
+Content writer:
+- subagent_type: "content-writer"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Generate marketing content. Write blog.md, linkedin-posts.md, and case-study.md to ./{slug}/marketing/"
+- description: "Writing marketing content → ./{slug}/marketing/"
+
+Deck builder:
+- subagent_type: "deck-builder"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Invoke /pptx skill to generate all PPTX decks. Write general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific decks to ./{slug}/marketing/prospect-specific/"
+- description: "Building PPTX decks → ./{slug}/marketing/"
+
+**Branch B — DM Research (5 agents):**
 
 For each instance NN (01 through 05):
 - subagent_type: "dm-researcher"
 - prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-{NN}.md"
 - description: "Researching DMs for {N} companies → ./{slug}/decision-maker-research/dm-{NN}.md"
 
-Wait for ALL 5 to complete.
+Wait for ALL 7 to complete.
 
 ## PHASE 8: DM COMPILATION
 
@@ -221,15 +243,23 @@ Files Created:
 - DM Research: ./{slug}/decision-maker-research/dm-*.md (5 files)
 - Decision Makers: ./{slug}/decision-makers/decision-makers.md
 - Outreach: ./{slug}/outreach.md
+- Blog: ./{slug}/marketing/blog.md
+- LinkedIn Posts: ./{slug}/marketing/linkedin-posts.md
+- Case Study: ./{slug}/marketing/case-study.md
+- General Deck: ./{slug}/marketing/deck-presentation.pptx, deck-reading.pptx
+- Prospect Decks: ./{slug}/marketing/prospect-specific/*.pptx
 
 Results:
 - Companies Qualified: {count from qualified-companies.md}
 - Decision Makers: {count from decision-makers.md}
 - Outreach Messages: {count from outreach.md}
+- Marketing Content: blog + {N} LinkedIn posts + case study
+- Decks Generated: 2 general + {N} prospect-specific
 
 Next Steps:
 1. Review ./{slug}/decision-makers/decision-makers.md for contact details
 2. Review ./{slug}/outreach.md for personalized emails
-3. Customize emails as needed before sending
+3. Review ./{slug}/marketing/ for content and decks
+4. Customize emails and content as needed before sending/publishing
 === END ===
 ```
