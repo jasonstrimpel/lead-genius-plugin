@@ -7,7 +7,7 @@ Repackage the Lead Genius multi-agent GTM research pipeline as a Claude Code plu
 ## Decisions
 
 - **Single command**: `/lead-genius` walks users through the entire flow conversationally
-- **Project-relative I/O**: `./collateral/` and `./senders/` for inputs, `./output/{slug}/` for outputs
+- **Project-relative I/O**: `./collateral/` and `./senders/` for inputs, `./{slug}/` for outputs
 - **File-based coordination**: Parallel researchers work independently; synthesizer agents deduplicate via shared filesystem (no inter-agent communication)
 - **All agents visible**: 8 agent `.md` files in `agents/` directory, orchestrated by the slash command
 - **Conversational setup**: Command checks for sender profiles and collateral, asks user to pick interactively
@@ -48,14 +48,14 @@ plugin/
 
 ### Phase 1: Collateral Analysis (optional)
 - If PDFs exist, spawn `collateral-analyzer` agent via Task
-- Output: `./output/{slug}/collateral/collateral-analysis.md`
+- Output: `./{slug}/collateral/collateral-analysis.md`
 - Skip if no PDFs
 
 ### Phase 2: GTM Interview (inline in command)
 - The command prompt contains the GTM strategist interview logic
 - Asks ~25 adaptive questions (one per turn, plain text)
 - Skips [Clear] sections if collateral was analyzed
-- Output: `./output/{slug}/interview/offering.md` and `gtm-strategy.md`
+- Output: `./{slug}/interview/offering.md` and `gtm-strategy.md`
 
 ### Phase 3-9: Research Pipeline (delegated to agents)
 Sequential/parallel orchestration via Task tool:
@@ -105,7 +105,7 @@ System prompt content here...
 
 ### Path Changes
 
-All file paths updated from `lead_genius/files/{slug}/` to `./output/{slug}/`.
+All file paths updated from `lead_genius/files/{slug}/` to `./{slug}/`.
 
 ## Executive Outreach Skill
 

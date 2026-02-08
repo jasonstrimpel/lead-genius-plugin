@@ -34,7 +34,7 @@ Initial release of the Lead Genius plugin for Claude Code and Claude Cowork.
 
 ### Output
 
-Full pipeline produces ~20 files across 7 directories in `./output/{slug}/`, including:
+Full pipeline produces ~20 files across 7 directories in `./{slug}/`, including:
 - Research brief and scoring rubrics
 - Top 10 qualified companies with evidence
 - Priority-ranked decision makers with contact details

@@ -73,7 +73,7 @@ Then in Claude Code or Claude Cowork:
    ```
 3. Answer the interview questions about your offering (~10-15 minutes)
 4. Wait while agent teams research companies and decision makers
-5. Review your results in `./output/{slug}/`
+5. Review your results in `./{slug}/`
 
 ## Setup (Optional)
 
@@ -149,10 +149,10 @@ Phases 5 and 7 spawn 5 researcher agents simultaneously. Each researcher works i
 
 ## Output Structure
 
-All output goes to `./output/{slug}/`:
+All output goes to `./{slug}/`:
 
 ```
-output/{slug}/
+{slug}/
 ├── collateral/
 │   └── collateral-analysis.md           # Extracted GTM content from PDFs
 ├── interview/

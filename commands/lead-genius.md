@@ -32,8 +32,8 @@ You are running the Lead Genius pipeline. This is a multi-phase lead generation 
 If PDFs were confirmed in Phase 0:
 - Spawn the `collateral-analyzer` agent via Task tool with:
   - subagent_type: "collateral-analyzer"
-  - prompt: "[Slug: {slug}] [Collateral: {comma-separated PDF filenames}] Analyze all PDFs in ./collateral/ and write the analysis to ./output/{slug}/collateral/collateral-analysis.md"
-  - description: "Analyzing collateral → ./output/{slug}/collateral/collateral-analysis.md"
+  - prompt: "[Slug: {slug}] [Collateral: {comma-separated PDF filenames}] Analyze all PDFs in ./collateral/ and write the analysis to ./{slug}/collateral/collateral-analysis.md"
+  - description: "Analyzing collateral → ./{slug}/collateral/collateral-analysis.md"
 - Wait for completion
 - Confirm the file was written
 
@@ -45,7 +45,7 @@ Conduct an adaptive interview to define the offering and GTM strategy. This phas
 
 ### Pre-Interview
 If collateral-analysis.md was generated in Phase 1:
-- Read ./output/{slug}/collateral/collateral-analysis.md
+- Read ./{slug}/collateral/collateral-analysis.md
 - Note which sections are [Clear], [Inferred], or [Gap]
 - Skip [Clear] sections during interview
 - Ask clarifying questions for [Inferred] sections
@@ -103,8 +103,8 @@ Work through these areas systematically. Ask ONE question per message. Wait for 
 
 Once all topics are covered:
 
-1. Create directory: `./output/{slug}/interview/`
-2. Write `./output/{slug}/interview/offering.md` with:
+1. Create directory: `./{slug}/interview/`
+2. Write `./{slug}/interview/offering.md` with:
    - Metadata: date, slug, agent
    - Executive Summary (3-5 sentences)
    - Offering Name and Description
@@ -113,7 +113,7 @@ Once all topics are covered:
    - Ideal Customer Profile (industry, size, geography)
    - Sender: {name} or "none"
 
-3. Write `./output/{slug}/interview/gtm-strategy.md` with:
+3. Write `./{slug}/interview/gtm-strategy.md` with:
    - Metadata: date, slug, agent
    - Demand Signals (observable buying triggers)
    - Buyer Personas (Tier 1/2/3 with specific roles)
@@ -129,8 +129,8 @@ Once all topics are covered:
 
 Spawn the gtm-synthesizer agent:
 - subagent_type: "gtm-synthesizer"
-- prompt: "[Slug: {slug}] Read ./output/{slug}/interview/offering.md and ./output/{slug}/interview/gtm-strategy.md. If ./output/{slug}/collateral/collateral-analysis.md exists, read it too. Combine into ./output/{slug}/go-to-market/research-brief.md"
-- description: "Synthesizing interview → ./output/{slug}/go-to-market/research-brief.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/interview/offering.md and ./{slug}/interview/gtm-strategy.md. If ./{slug}/collateral/collateral-analysis.md exists, read it too. Combine into ./{slug}/go-to-market/research-brief.md"
+- description: "Synthesizing interview → ./{slug}/go-to-market/research-brief.md"
 
 Wait for completion.
 
@@ -138,8 +138,8 @@ Wait for completion.
 
 Spawn the scoring-strategist agent:
 - subagent_type: "scoring-strategist"
-- prompt: "[Slug: {slug}] Read ./output/{slug}/go-to-market/research-brief.md. Generate deterministic scoring rubrics. Write to ./output/{slug}/go-to-market/scoring-rubrics.md"
-- description: "Generating scoring rubrics → ./output/{slug}/go-to-market/scoring-rubrics.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md. Generate deterministic scoring rubrics. Write to ./{slug}/go-to-market/scoring-rubrics.md"
+- description: "Generating scoring rubrics → ./{slug}/go-to-market/scoring-rubrics.md"
 
 Wait for completion.
 
@@ -149,8 +149,8 @@ Spawn 5 company-researcher agents SIMULTANEOUSLY in a single message with 5 Task
 
 For each instance NN (01 through 05):
 - subagent_type: "company-researcher"
-- prompt: "[Slug: {slug}] [Instance: {NN}] Read ./output/{slug}/go-to-market/research-brief.md. Search for companies matching the GTM strategy. Use varied search queries targeting different signal types. Find 7-10 qualified companies. Write to ./output/{slug}/company-research/companies-{NN}.md"
-- description: "Researching companies {NN}/05 → ./output/{slug}/company-research/companies-{NN}.md"
+- prompt: "[Slug: {slug}] [Instance: {NN}] Read ./{slug}/go-to-market/research-brief.md. Search for companies matching the GTM strategy. Use varied search queries targeting different signal types. Find 7-10 qualified companies. Write to ./{slug}/company-research/companies-{NN}.md"
+- description: "Researching companies {NN}/05 → ./{slug}/company-research/companies-{NN}.md"
 
 Wait for ALL 5 to complete.
 
@@ -158,14 +158,14 @@ Wait for ALL 5 to complete.
 
 Spawn the company-synthesizer agent:
 - subagent_type: "company-synthesizer"
-- prompt: "[Slug: {slug}] Glob all companies-*.md in ./output/{slug}/company-research/. Read ALL files. Read ./output/{slug}/go-to-market/scoring-rubrics.md. Deduplicate, merge, apply confidence scoring (1-5), select top 10. Write to ./output/{slug}/companies/qualified-companies.md"
-- description: "Deduping/merging companies → ./output/{slug}/companies/qualified-companies.md"
+- prompt: "[Slug: {slug}] Glob all companies-*.md in ./{slug}/company-research/. Read ALL files. Read ./{slug}/go-to-market/scoring-rubrics.md. Deduplicate, merge, apply confidence scoring (1-5), select top 10. Write to ./{slug}/companies/qualified-companies.md"
+- description: "Deduping/merging companies → ./{slug}/companies/qualified-companies.md"
 
 Wait for completion.
 
 ## PHASE 7: DECISION MAKER RESEARCH (PARALLEL)
 
-First, read ./output/{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
+First, read ./{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
 
 Split companies across 5 researchers evenly. For example with 10 companies:
 - Researcher 01: companies 1-2
@@ -178,8 +178,8 @@ Spawn 5 dm-researcher agents SIMULTANEOUSLY in a single message with 5 Task call
 
 For each instance NN (01 through 05):
 - subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./output/{slug}/go-to-market/research-brief.md and ./output/{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./output/{slug}/decision-maker-research/dm-{NN}.md"
-- description: "Researching DMs for {N} companies → ./output/{slug}/decision-maker-research/dm-{NN}.md"
+- prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-{NN}.md"
+- description: "Researching DMs for {N} companies → ./{slug}/decision-maker-research/dm-{NN}.md"
 
 Wait for ALL 5 to complete.
 
@@ -187,8 +187,8 @@ Wait for ALL 5 to complete.
 
 Spawn the dm-compiler agent:
 - subagent_type: "dm-compiler"
-- prompt: "[Slug: {slug}] Glob all dm-*.md in ./output/{slug}/decision-maker-research/. Read ALL files. Read ./output/{slug}/companies/qualified-companies.md and ./output/{slug}/go-to-market/scoring-rubrics.md. Compile, deduplicate, calculate priority scores, rank. Write to ./output/{slug}/decision-makers/decision-makers.md"
-- description: "Compiling DM list → ./output/{slug}/decision-makers/decision-makers.md"
+- prompt: "[Slug: {slug}] Glob all dm-*.md in ./{slug}/decision-maker-research/. Read ALL files. Read ./{slug}/companies/qualified-companies.md and ./{slug}/go-to-market/scoring-rubrics.md. Compile, deduplicate, calculate priority scores, rank. Write to ./{slug}/decision-makers/decision-makers.md"
+- description: "Compiling DM list → ./{slug}/decision-makers/decision-makers.md"
 
 Wait for completion.
 
@@ -196,8 +196,8 @@ Wait for completion.
 
 Spawn the outreach-composer agent:
 - subagent_type: "outreach-composer"
-- prompt: "[Slug: {slug}] [Sender: {sender name or 'none'}] Read ./output/{slug}/decision-makers/decision-makers.md, ./output/{slug}/go-to-market/research-brief.md, and ./output/{slug}/companies/qualified-companies.md. If sender is not 'none', read ./senders/{sender}.md for bio. For EACH decision maker, invoke /executive-outreach skill to generate a personalized email. Write all messages to ./output/{slug}/outreach.md"
-- description: "Writing outreach → ./output/{slug}/outreach.md"
+- prompt: "[Slug: {slug}] [Sender: {sender name or 'none'}] Read ./{slug}/decision-makers/decision-makers.md, ./{slug}/go-to-market/research-brief.md, and ./{slug}/companies/qualified-companies.md. If sender is not 'none', read ./senders/{sender}.md for bio. For EACH decision maker, invoke /executive-outreach skill to generate a personalized email. Write all messages to ./{slug}/outreach.md"
+- description: "Writing outreach → ./{slug}/outreach.md"
 
 Wait for completion.
 
@@ -211,16 +211,16 @@ Offering: {offering-name}
 Slug: {slug}
 
 Files Created:
-- Interview: ./output/{slug}/interview/offering.md
-- Interview: ./output/{slug}/interview/gtm-strategy.md
-- Collateral Analysis: ./output/{slug}/collateral/collateral-analysis.md (if applicable)
-- Research Brief: ./output/{slug}/go-to-market/research-brief.md
-- Scoring Rubrics: ./output/{slug}/go-to-market/scoring-rubrics.md
-- Company Research: ./output/{slug}/company-research/companies-*.md (5 files)
-- Qualified Companies: ./output/{slug}/companies/qualified-companies.md
-- DM Research: ./output/{slug}/decision-maker-research/dm-*.md (5 files)
-- Decision Makers: ./output/{slug}/decision-makers/decision-makers.md
-- Outreach: ./output/{slug}/outreach.md
+- Interview: ./{slug}/interview/offering.md
+- Interview: ./{slug}/interview/gtm-strategy.md
+- Collateral Analysis: ./{slug}/collateral/collateral-analysis.md (if applicable)
+- Research Brief: ./{slug}/go-to-market/research-brief.md
+- Scoring Rubrics: ./{slug}/go-to-market/scoring-rubrics.md
+- Company Research: ./{slug}/company-research/companies-*.md (5 files)
+- Qualified Companies: ./{slug}/companies/qualified-companies.md
+- DM Research: ./{slug}/decision-maker-research/dm-*.md (5 files)
+- Decision Makers: ./{slug}/decision-makers/decision-makers.md
+- Outreach: ./{slug}/outreach.md
 
 Results:
 - Companies Qualified: {count from qualified-companies.md}
@@ -228,8 +228,8 @@ Results:
 - Outreach Messages: {count from outreach.md}
 
 Next Steps:
-1. Review ./output/{slug}/decision-makers/decision-makers.md for contact details
-2. Review ./output/{slug}/outreach.md for personalized emails
+1. Review ./{slug}/decision-makers/decision-makers.md for contact details
+2. Review ./{slug}/outreach.md for personalized emails
 3. Customize emails as needed before sending
 === END ===
 ```
