@@ -15,7 +15,10 @@
         "name": "Jason Strimpel",
         "email": "jason@example.com"
       },
-      "source": ".",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jasonstrimpel/lead-genius-plugin.git"
+      },
       "category": "productivity",
       "strict": false,
       "homepage": "https://github.com/jasonstrimpel/lead-genius-plugin"
