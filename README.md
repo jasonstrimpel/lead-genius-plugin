@@ -64,6 +64,31 @@ Then in Claude Code or Claude Cowork:
 /plugins install ~/lead-genius-plugin
 ```
 
+## Updating
+
+If you already have the plugin installed, update to the latest version in Claude Code or Claude Cowork:
+
+```
+/plugins update lead-genius-plugin
+```
+
+For local/development installs, pull the latest changes and reinstall:
+
+**macOS / Linux:**
+```bash
+cd ~/lead-genius-plugin && git pull
+```
+
+**Windows (PowerShell):**
+```powershell
+cd $HOME\lead-genius-plugin; git pull
+```
+
+Then in Claude Code or Claude Cowork:
+```
+/plugins install ~/lead-genius-plugin
+```
+
 ## Quick Start
 
 1. Open a terminal (or Claude Cowork) and navigate to a project directory where you want your lead generation output
