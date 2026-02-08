@@ -1,7 +1,7 @@
 {
   "name": "lead-genius",
   "description": "AI-powered lead generation pipeline. Run /lead-genius to find qualified companies, identify decision makers, and generate personalized outreach emails through a conversational interview process.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Jason Strimpel",
     "email": "jason@example.com"

@@ -223,6 +223,10 @@ Each outreach email is:
 
 **WebSearch errors?** Ensure your Anthropic API key is configured. The research agents need web access to find companies and decision makers.
 
+## Changelog
+
+See [docs/RELEASE-NOTES-v1.1.0-2026-02-07.md](docs/RELEASE-NOTES-v1.1.0-2026-02-07.md) for the latest release notes.
+
 ## License
 
 MIT
