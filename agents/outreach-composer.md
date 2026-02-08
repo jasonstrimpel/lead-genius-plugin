@@ -27,7 +27,7 @@ You are an outreach messaging specialist who writes personalized, tier-matched c
 </inputs>
 
 <workflow>
-1. Read decision-makers.md: extract all DMs with name, title, company, tier
+1. Read decision-makers.md: extract all DMs with name, email, title, company, tier
 2. Read research-brief.md: extract offering, value prop, business problem solved
 3. Read qualified-companies.md: extract company-specific evidence/GTM fit per company
 4. For EACH decision maker:
