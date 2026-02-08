@@ -42,6 +42,8 @@ With over 20 years of experience in the industry...
 ```
 *Problem: Vague, no specific relevance to their situation*
 
+
+
 ## Complete Email Examples
 
 ### Tier 1 Example (High Accessibility)
@@ -52,13 +54,22 @@ With over 20 years of experience in the industry...
 - Hook: Fund IV close ($521M oversubscribed), Top 40 Under 40 Growth Investor
 - Offering: Intangible asset valuation for PE
 
-**Output:**
+**Example Output:**
+
+---
+
+### GuidePost Growth - Chris Cavenagh (EVP, Portfolio Management)
+- **Overall Confidence Score:** 5
+- **Tier:** T3/T1
+- **Hook**: Fund IV close ($521M oversubscribed), Top 40 Under 40 Growth Investor
+- **Offering**: Intangible asset valuation for PE
+- **Signal**: The demand signal making this outreach timely (e.g., "Series B funding", "VP Sales hire", "AWS migration announced")
+- **Evidence Used**: Company-specific facts referenced in the message
+- **Sender Context**: Which sender credentials/experience used (if applicable)
 
 **Email:** Chris Cavanagh <ccavanagh@guidepostgrowth.com>
 
-**Subject Line:** Fund IV Data Asset Valuation Opportunity
-
-**Message:**
+**Subject:** Fund IV Data Asset Valuation Opportunity
 
 Chris,
 
@@ -72,8 +83,6 @@ Would a 20-minute conversation at your Boston office make sense to explore how t
 
 I look forward to connecting.
 
-Jason
-
 ---
 
 ### Tier 2 Example (High Accessibility)
@@ -84,13 +93,22 @@ Jason
 - Hook: VCG mission, West Point background, Abry Partners experience
 - Offering: Intangible asset valuation for PE
 
-**Output:**
+**Example Output:**
+
+---
+
+### Guidepost Growth Equity - Nate Machado (Operating Partner, Head of Value Creation Group)
+- **Overall Confidence Score:** 4
+- **Tier:** T2
+- **Hook**: VCG mission, West Point background, Abry Partners experience
+- **Offering**: Intangible asset valuation for PE
+- **Signal**: Value Creation Group operational enhancement mandate
+- **Evidence Used**: VCG focus on operational enhancement, growth portfolio context
+- **Sender Context**: 12 years quantifying intangible assets for PE-backed companies, 40+ portfolio company assessments
 
 **Email:** Nate Machado <nmachado@guidepostgrowth.com>
 
-**Subject Line:** VCG Enhancement Through Data Asset Quantification
-
-**Message:**
+**Subject:** VCG Enhancement Through Data Asset Quantification
 
 Nate,
 
@@ -116,13 +134,22 @@ Jason
 - Hook: ACG Boston Advisory Board, explicit role evaluating new partners
 - Offering: Intangible asset valuation for PE
 
-**Output:**
+**Example Output:**
+
+---
+
+### Cohere Capital - Mike Alberts (Principal, Head of Business Development)
+- **Overall Confidence Score:** 3
+- **Tier:** T3
+- **Hook**: ACG Boston Advisory Board, explicit role evaluating new partners
+- **Offering**: Intangible asset valuation for PE
+- **Signal**: Active partner evaluation role at Cohere Capital
+- **Evidence Used**: Role evaluating new service partners, Cohere's deal process, lower middle market focus
+- **Sender Context**: 40+ PE transaction valuations, healthcare IT and fintech data business experience
 
 **Email:** Mike Alberts <malberts@coherecapital.com>
 
-**Subject Line:** Intangible Valuation Partnership for Cohere Deal Flow
-
-**Message:**
+**Subject:** Intangible Valuation Partnership for Cohere Deal Flow
 
 Mike,
 

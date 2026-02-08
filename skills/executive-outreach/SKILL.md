@@ -18,19 +18,46 @@ Expect structured data containing:
 
 ## Output Structure
 
-Generate emails with these sections in exact order:
+For each contact, generate output with these sections in exact order:
 
-### 1. Email (copy/paste ready)
-Format: `Name <email@domain.com>` for direct paste into email client.
+### 1. Header and Metadata
 
-### 2. Subject Line (6-10 words)
-Reference ONE specific personalization hook. No generic value propositions.
+**Header line:**
 
-### 3. Opening (2-3 sentences)
-Lead with the trigger from personalization hooks. Name the initiative, announcement, or recognition. Establish relevance within first 15 words.
+`### {Company} - {Contact Name} ({Title})`
 
-### 4. Credibility Bridge (1 sentence)
-Single sentence connecting sender background to recipient's context. Only use to establish relevance, not to make it about the sender. Use ONE:
+**Metadata block** (bullet list immediately below header):
+- **Overall Confidence Score:** 1-5 rating from scoring rubrics
+- **Tier:** Buyer tier designation (e.g., T1, T2, T3, or hybrid like T3/T1)
+- **Hook**: Personalization hook used in the email opening
+- **Offering**: The offering being pitched
+- **Signal**: Demand signal making outreach timely (e.g., "Series B funding", "VP Sales hire", "AWS migration announced")
+- **Evidence Used**: Company-specific facts referenced in the message
+- **Sender Context**: Which sender credentials/experience used (if applicable)
+
+### 2. Email
+
+**Format:**
+
+```
+**Email:** Name <email@domain.com>
+
+**Subject:** 6-10 word subject referencing ONE specific hook
+
+{First name},
+
+{Continuous email body}
+
+{Forward-looking closing line}
+
+{Sender first name, if sender profile provided}
+```
+
+The email body is continuous prose with no internal section labels. Compose it following this flow:
+
+**Opening (2-3 sentences):** Lead with the trigger from personalization hooks. Name the initiative, announcement, or recognition. Establish relevance within first 15 words.
+
+**Credibility Bridge (1 sentence):** Single sentence connecting sender background to recipient's context. Only use to establish relevance, not to make it about the sender. Use ONE:
 - Shared industry experience: "[X] years in [their domain]"
 - Relevant client work: "My work with [comparable situation]"
 - Shared connection: "[Mutual contact] suggested I reach out"
@@ -38,30 +65,19 @@ Single sentence connecting sender background to recipient's context. Only use to
 
 Skip if no authentic relevance exists. Never fabricate.
 
-### 5. Value Bridge (2-3 sentences)
-Connect offering to their stated priority. Quantify ONE benefit. Match language to tier:
+**Value Bridge (2-3 sentences):** Connect offering to their stated priority. Quantify ONE benefit. Match language to tier:
 - **Tier 1**: Strategic outcomes, competitive advantage, business impact
 - **Tier 2**: Operational improvement, process enhancement, team enablement
 - **Tier 3**: Technical validation, implementation support, evaluation criteria
 
-### 6. Proof Point (1-2 sentences)
-Reference capability, case study, or credential with specifics: outcomes, timeframes, comparable situations. Never mention attachments or offer materials.
+**Proof Point (1-2 sentences):** Reference capability, case study, or credential with specifics: outcomes, timeframes, comparable situations. Never mention attachments or offer materials.
 
-### 7. Call to Action (1-2 sentences)
-One clear next step matched to accessibility:
+**Call to Action (1-2 sentences):** One clear next step matched to accessibility:
 - **High**: Direct meeting request with timeframe. Reference their location, not yours.
 - **Medium**: Brief call or introduction offer
 - **Low**: Permission to send additional materials
 
-### 8. Closing (1 sentence)
-Forward-looking statement tied to their priority. Name only, no title block.
-
-### 9. Outreach Summary
-
-After the email, include a summary block:
-- **Signal**: The demand signal making this outreach timely (e.g., "Series B funding", "VP Sales hire", "AWS migration announced")
-- **Evidence Used**: Company-specific facts referenced in the message
-- **Sender Context**: Which sender credentials/experience used (if applicable)
+**Closing (1 sentence):** Forward-looking statement tied to their priority. Sender first name only (if provided), no title block.
 
 ## Style Rules
 
@@ -95,7 +111,7 @@ After the email, include a summary block:
 - Preserve all proper nouns exactly as provided
 - CTA matched to accessibility level
 - Credibility bridge connecting sender to recipient context (if authentic)
-- Outreach Summary block after each email
+- Header and metadata block before each email
 
 ## Tier Calibration
 
