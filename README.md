@@ -1,6 +1,6 @@
 # Lead Genius Plugin
 
-AI-powered lead generation pipeline for Claude Code and Claude Cowork. Find qualified companies, identify decision makers, and generate personalized outreach emails through a single conversational command.
+AI-powered lead generation pipeline for Claude Code and Claude Cowork. Find qualified companies, identify decision makers, generate personalized outreach emails, and produce marketing content (blog, LinkedIn posts, executive case study, PPTX sales decks) through a single conversational command.
 
 ## Prerequisites
 
@@ -164,13 +164,13 @@ The pipeline runs 10 phases using teams of specialized AI agents:
 | 4 | Generate scoring rubrics | `scoring-rubrics.md` |
 | 5 | **5 agents in parallel** search for companies | `companies-01..05.md` |
 | 6 | Deduplicate and rank top 10 companies | `qualified-companies.md` |
-| 7 | **5 agents in parallel** research decision makers | `dm-01..05.md` |
+| 7 | **7 agents in parallel** — Branch A: marketing content + decks, Branch B: decision maker research | `blog.md`, `linkedin-posts.md`, `case-study.md`, `*.pptx`, `dm-01..05.md` |
 | 8 | Compile and priority-rank all decision makers | `decision-makers.md` |
 | 9 | Generate personalized outreach for each DM | `outreach.md` |
 
-### Parallel Agent Teams
+### Parallel Agent Teams and Branching
 
-Phases 5 and 7 spawn 5 researcher agents simultaneously. Each researcher works independently with different search strategies, then a synthesizer agent merges and deduplicates the results. This produces broader coverage than a single agent could achieve.
+Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 forks into two branches that run simultaneously: Branch A launches a content writer and deck builder to produce marketing materials, while Branch B launches 5 DM researchers. All 7 agents run at the same time, then the pipeline continues sequentially with DM compilation and outreach.
 
 ## Output Structure
 
@@ -202,7 +202,16 @@ All output goes to `./{slug}/`:
 │   └── dm-05.md
 ├── decision-makers/
 │   └── decision-makers.md               # Priority-ranked contacts
-└── outreach.md                          # Personalized emails
+├── outreach.md                          # Personalized emails
+└── marketing/                           # Marketing content (Branch A)
+    ├── blog.md                          # Thought leadership blog post
+    ├── linkedin-posts.md                # 5-7 LinkedIn posts
+    ├── case-study.md                    # Executive case study
+    ├── deck-presentation.pptx           # 8-slide sales deck (live version)
+    ├── deck-reading.pptx                # 8-slide sales deck (leave-behind)
+    └── prospect-specific/               # Per-company 2-slide decks
+        ├── {company}-presentation.pptx
+        └── {company}-reading.pptx
 ```
 
 ### Key Files to Review
@@ -210,6 +219,10 @@ All output goes to `./{slug}/`:
 - **`decision-makers.md`** - Your ranked list of contacts with titles, companies, tiers, and email addresses
 - **`outreach.md`** - Ready-to-send personalized emails for each contact
 - **`qualified-companies.md`** - The top 10 companies with evidence and fit rationale
+- **`marketing/blog.md`** - Thought leadership blog post following a 7-part narrative arc
+- **`marketing/case-study.md`** - Publication-ready executive case study (Andersen Consulting format)
+- **`marketing/deck-presentation.pptx`** - 8-slide first-call sales deck for live presentation
+- **`marketing/prospect-specific/`** - Customized 2-slide decks for each qualified company
 
 ## The Interview
 
@@ -235,6 +248,26 @@ Each outreach email is:
 - Enhanced with sender credentials when a bio is provided
 - Flagged with email confidence indicators (verified emails stay clean; pattern-matched and unverified emails get a warning banner and inline tag; contacts with no email get lookup guidance)
 
+## Marketing Content
+
+The pipeline automatically generates marketing materials alongside outreach emails:
+
+### Blog Post
+A 1500-2500 word thought leadership piece following the same narrative arc as the sales deck: industry shift, winners/losers, quantified pain, cost of inaction, promised land, bridge to solution, and next steps. Written for the ICP audience, not as a sales pitch.
+
+### LinkedIn Posts
+5-7 posts derived from the blog, each pulling a different angle (industry shift, shocking statistic, contrarian take, etc.). Ready to copy-paste into LinkedIn.
+
+### Executive Case Study
+Publication-ready case study in the Andersen Consulting executive format. Anonymous client, mandatory heading structure, strict cadence requirements. Includes verbatim firm description and contact section.
+
+### Sales Decks (PPTX)
+Real PowerPoint files generated using the Anthropic `pptx` skill (PptxGenJS). Two versions of every deck:
+- **Presentation version** (≤20 words/slide) - Visual-heavy, for live delivery
+- **Reading version** (≤60 words/slide) - Expanded narrative, for async sharing
+
+The general deck follows an 8-slide first-call framework backed by sales methodology research (Raskin, Challenger Sale, Corporate Visions, Gong). Prospect-specific 2-slide decks are generated for each qualified company.
+
 ## Troubleshooting
 
 **No collateral PDFs?** That's fine. Skip Phase 1 entirely. The interview covers everything the pipeline needs.
@@ -251,7 +284,7 @@ Each outreach email is:
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.2.0-2026-02-08.md](docs/RELEASE-NOTES-v1.2.0-2026-02-08.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.3.0-2026-02-08.md](docs/RELEASE-NOTES-v1.3.0-2026-02-08.md) for the latest release notes.
 
 ## License
 
