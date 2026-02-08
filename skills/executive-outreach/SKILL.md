@@ -11,7 +11,7 @@ Generate high-conversion cold outreach emails that are concise, value-focused, a
 
 Expect structured data containing:
 
-- **Contact**: Name, title, company, email, buyer tier (1-3), accessibility level, personalization hooks, recommended approach
+- **Contact**: Name, title, company, email, email confidence (Verified/Pattern-matched/Unverified/None), buyer tier (1-3), accessibility level, personalization hooks, recommended approach
 - **Offering**: Service/product description and value proposition
 - **Company**: Fit rationale, strategic priorities, recent activity, demand signal (the observable trigger making outreach timely)
 - **Sender**: Name, credentials, relevant experience, shared connections
@@ -34,14 +34,45 @@ For each contact, generate output with these sections in exact order:
 - **Signal**: Demand signal making outreach timely (e.g., "Series B funding", "VP Sales hire", "AWS migration announced")
 - **Evidence Used**: Company-specific facts referenced in the message
 - **Sender Context**: Which sender credentials/experience used (if applicable)
+- **Email Confidence:** Confidence level with detail (omit for Verified emails)
 
-### 2. Email
+### 2. Warning Banner (non-verified only)
 
-**Format:**
+Placed between the metadata block and the Email line. Omit entirely for verified emails.
 
+For pattern-matched or unverified:
+```
+> ⚠ **Email unverified — confirm before sending**
+```
+
+For no email found:
+```
+> ⚠ **No email found — lookup required.** Try LinkedIn (linkedin.com/in/{name}) or company directory pattern ({format}@{domain}).
+```
+
+### 3. Email
+
+**Format by confidence level:**
+
+Verified (clean, no tag):
 ```
 **Email:** Name <email@domain.com>
+```
 
+Pattern-matched or Unverified (inline tag):
+```
+**Email:** Name <email@domain.com> `[Pattern-matched]`
+**Email:** Name <email@domain.com> `[Unverified]`
+```
+
+No email found:
+```
+**Email:** Name <— lookup required>
+```
+
+Generate the full email body regardless of email confidence. The message should be ready to send once the user confirms or finds the address.
+
+```
 **Subject:** 6-10 word subject referencing ONE specific hook
 
 {First name},

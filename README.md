@@ -208,6 +208,7 @@ Each outreach email is:
 - Tier-matched (C-suite gets business outcomes, technical contacts get implementation detail)
 - Structured with a clear call-to-action (15-min call, not vague "connect")
 - Enhanced with sender credentials when a bio is provided
+- Flagged with email confidence indicators (verified emails stay clean; pattern-matched and unverified emails get a warning banner and inline tag; contacts with no email get lookup guidance)
 
 ## Troubleshooting
 
@@ -225,7 +226,7 @@ Each outreach email is:
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.1.0-2026-02-07.md](docs/RELEASE-NOTES-v1.1.0-2026-02-07.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.2.0-2026-02-08.md](docs/RELEASE-NOTES-v1.2.0-2026-02-08.md) for the latest release notes.
 
 ## License
 

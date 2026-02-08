@@ -126,11 +126,11 @@ Jason
 
 ---
 
-### Tier 3 Example (High Accessibility)
+### Tier 3 Example (Pattern-matched Email, High Accessibility)
 
 **Input Context:**
 - Contact: Mike Alberts, Principal, Head of Business Development, Cohere Capital, malberts@coherecapital.com
-- Tier: 3, Accessibility: High
+- Tier: 3, Accessibility: High, Email Confidence: Pattern-matched
 - Hook: ACG Boston Advisory Board, explicit role evaluating new partners
 - Offering: Intangible asset valuation for PE
 
@@ -146,8 +146,11 @@ Jason
 - **Signal**: Active partner evaluation role at Cohere Capital
 - **Evidence Used**: Role evaluating new service partners, Cohere's deal process, lower middle market focus
 - **Sender Context**: 40+ PE transaction valuations, healthcare IT and fintech data business experience
+- **Email Confidence:** Pattern-matched (company format: first initial + last name)
 
-**Email:** Mike Alberts <malberts@coherecapital.com>
+> ⚠ **Email unverified — confirm before sending**
+
+**Email:** Mike Alberts <malberts@coherecapital.com> `[Pattern-matched]`
 
 **Subject:** Intangible Valuation Partnership for Cohere Deal Flow
 
@@ -164,6 +167,48 @@ Would it make sense to schedule a call to walk through the methodology?
 I appreciate your consideration.
 
 Jason
+
+---
+
+### No Email Example (Tier 1, High Accessibility)
+
+**Input Context:**
+- Contact: Jordan Rivera, VP Corporate Development, Apex Partners, no email found
+- Tier: 1, Accessibility: High, Email Confidence: None
+- Hook: Q3 earnings call, M&A pipeline expansion
+- Offering: Intangible asset valuation for PE
+
+**Example Output:**
+
+---
+
+### Apex Partners - Jordan Rivera (VP, Corporate Development)
+- **Overall Confidence Score:** 4
+- **Tier:** T1
+- **Hook**: Q3 earnings call, M&A pipeline expansion
+- **Offering**: Intangible asset valuation for PE
+- **Signal**: M&A pipeline expansion announced
+- **Evidence Used**: Q3 earnings call commentary, 3 acquisitions in 12 months
+- **Sender Context**: PE exit valuation experience
+- **Email Confidence:** No email found
+
+> ⚠ **No email found — lookup required.** Try LinkedIn (linkedin.com/in/jordanrivera) or company directory pattern (firstlast@apexpartners.com).
+
+**Email:** Jordan Rivera <— lookup required>
+
+**Subject:** Apex M&A Pipeline Valuation Opportunity
+
+Jordan,
+
+Your three acquisitions in the past twelve months signal an active deal pipeline. Rigorous intangible asset valuation early in diligence can sharpen your thesis and strengthen buyer confidence.
+
+My work with comparable mid-market PE firms has shown that quantifying data and IP assets typically surfaces 15-20% of enterprise value that traditional models miss.
+
+I recently completed valuations for three similar application software portfolios, each shifting the deal team's positioning on price.
+
+Would a 20-minute conversation make sense to explore how this applies to your current pipeline?
+
+I look forward to connecting.
 
 ---
 

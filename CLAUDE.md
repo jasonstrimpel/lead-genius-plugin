@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A Claude Code plugin (v1.1.0) that provides the `/lead-genius` command — a 10-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches parallel research agents to find companies and decision makers, then generates personalized outreach emails.
+A Claude Code plugin (v1.2.0) that provides the `/lead-genius` command — a 10-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches parallel research agents to find companies and decision makers, then generates personalized outreach emails.
 
 There is no build system, package manager, or test suite. The codebase is entirely markdown files: agent definitions, commands, and skills interpreted by the Claude Code plugin runtime.
 
@@ -46,7 +46,7 @@ The orchestrator (`commands/lead-genius.md`) drives a linear 10-phase pipeline. 
 - Researcher agents (company-researcher, dm-researcher) must make 5-10 WebSearch calls each and cite all sources with URLs.
 - Scoring uses a deterministic formula: `(Tier × Multiplier) + (Role Points) + (Activity Bonuses)` — defined by the scoring-strategist and applied by synthesizers.
 - Buyer tier distribution targets 60% business/economic, 25% bridge/champion, 15% technical.
-- Outreach emails must be under 120 words, tier-matched in tone, and reference company-specific evidence.
+- Outreach emails must be under 120 words, tier-matched in tone, and reference company-specific evidence. Emails are generated for all decision makers including those with no email. Non-verified emails get three layered indicators: metadata field, warning banner, and inline tag. Verified emails stay clean.
 - Collateral analysis marks sections as `[Clear]`, `[Inferred]`, or `[Gap]` — the interview adapts by skipping `[Clear]` topics.
 
 ## Making Changes
