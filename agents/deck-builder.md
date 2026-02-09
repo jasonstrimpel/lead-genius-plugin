@@ -100,10 +100,183 @@ Generate every deck TWICE:
 2. **Reading version** (suffix: `-reading.pptx`): Max 60 words per slide. Expanded narrative for asynchronous sharing. Personalized leave-behind decks are shared internally 2.3x more often. This is what gets forwarded to the CFO.
 </two_versions>
 
+<deck_script_spec>
+## Deck Script Format
+
+Deck scripts are markdown intermediates that capture all content and visual direction for a deck. They are the single source of truth for Pass 2 rendering — the `/pptx` skill reads the deck script and renders PPTX without needing to re-read research files.
+
+### General Deck Script Structure
+
+````markdown
+---
+type: deck-script
+deck: general-offering
+slug: {slug}
+date: YYYY-MM-DD
+agent: deck-builder
+source_files:
+  - ./{slug}/go-to-market/research-brief.md
+  - ./{slug}/companies/qualified-companies.md
+---
+
+# General Offering Deck — Deck Script
+
+## Design Direction
+
+- **Color palette:** {palette name} ({primary}, {secondary}, {accent}) — {rationale tied to industry}
+- **Visual motif:** {one repeating element across all slides, e.g., diagonal accent bars, hexagonal frames, gradient overlays}
+- **Font pairing:** {title font} / {body font}
+- **Industry tone:** {e.g., "enterprise financial services — authoritative, restrained, precise"}
+
+## Slide 1: The Industry Shift
+
+### Content
+
+**Headline:** {Bold declarative statement naming the shift}
+
+{One striking data point validating the shift, with source attribution}
+
+{1-2 sentences framing why this matters now — stakes + urgency}
+
+Implicit question: "{How is this playing out for your team?}"
+
+### Visual Direction
+
+- Layout: {e.g., full-bleed background image with text overlay, split-screen}
+- Dominant element: {the headline or the data point — specify which is biggest}
+- Visual elements: {e.g., background image of industry context, accent bar under headline}
+- Color: {e.g., dominant color for background, accent for the data point}
+- Presentation version: {what to include/exclude}
+- Reading version: {what to add for async readers}
+
+## Slide 2: Winners and Losers
+{same Content + Visual Direction structure}
+
+...
+
+## Slide 8: Next Steps
+{same Content + Visual Direction structure}
+````
+
+### Prospect-Specific Deck Script Structure
+
+````markdown
+---
+type: deck-script
+deck: prospect-specific
+company: {Company Name}
+company_slug: {company-slug}
+slug: {slug}
+date: YYYY-MM-DD
+agent: deck-builder
+source_files:
+  - ./{slug}/go-to-market/research-brief.md
+  - ./{slug}/companies/qualified-companies.md
+---
+
+# {Company Name} — Prospect Deck Script
+
+## Design Direction
+
+{Same palette, motif, and fonts as the general deck — keep visual identity consistent}
+
+## Slide 1: Industry Impact
+
+### Content
+
+**Headline:** {How the macro shift specifically reshapes this company's industry}
+
+{Industry-specific data points from qualified-companies.md entry}
+
+{1-2 sentences connecting the shift to this company's competitive position}
+
+### Visual Direction
+
+{Layout, emphasis, visual elements, version differences}
+
+## Slide 2: Company ROI
+
+### Content
+
+**Headline:** {Projected outcome for this specific company}
+
+{Company-specific evidence from qualified-companies.md: GTM fit rationale, demand signals}
+
+{Quantified or directional projected outcomes based on value proposition}
+
+### Visual Direction
+
+{Layout, emphasis, visual elements, version differences}
+````
+
+### Content Block Rules
+
+Each `### Content` block contains the actual words that appear on the slide:
+
+- **Headline:** Bold, declarative — the one thing the audience remembers from this slide
+- **Data points:** Quantified with source attribution (e.g., "industry benchmark", "Gartner 2025")
+- **Narrative text:** 1-3 sentences of supporting context
+- **Source framing:** Attribution sentences for key claims (e.g., "Manual KYC review costs mid-market insurers an average of $2.4M per year")
+- **Emphasis markers:** Bold the single most impactful number or phrase per slide
+- All content must be extracted from the research files — never fabricated
+
+### Visual Direction Rules
+
+Each `### Visual Direction` block guides the `/pptx` skill on how to render the slide:
+
+**Include:**
+- **Layout pattern:** three-column, split-screen, full-bleed, centered, asymmetric, stacked
+- **Emphasis hierarchy:** what's biggest (dominant element), what's secondary, what's supporting
+- **Visual element types:** icons (with descriptions, e.g., "clock icon for time"), accent bars, shapes, data visualizations, background images
+- **Color intent:** where to use dominant, supporting, and accent colors
+- **Presentation vs. reading differences:** what to show/hide per version (e.g., "Presentation: numbers only. Reading: include source framing below each data point.")
+
+**Do NOT include:**
+- Exact x/y coordinates or dimensions
+- Font sizes or specific typeface names
+- Hex color values
+- PptxGenJS API calls or code
+
+### Worked Example — Slide 3
+
+```markdown
+## Slide 3: The Quantified Pain
+
+### Content
+
+**Headline:** The Hidden Cost of Manual Compliance
+
+Three pain points with quantified impact:
+
+1. **$2.4M per year** in manual review labor for mid-market insurers (industry benchmark)
+2. **23 days average** from filing to resolution — 4x the customer-expected timeline
+3. **34% of compliance decisions** require rework due to inconsistent human judgment
+
+The single most impactful number: **$2.4M/year** — bold and dominant.
+
+Source framing: "Manual KYC review costs mid-market insurers an average of $2.4M per year in direct labor alone."
+
+### Visual Direction
+
+- Layout: Three-column with icon above each pain point
+- Dominant element: The $2.4M figure at 2x size, top-center
+- Color: Use the accent color for all dollar/percentage figures
+- Icons: Clock (time), dollar sign (cost), warning triangle (risk)
+- Presentation version: Numbers only, no source framing text
+- Reading version: Include source framing below each data point
+```
+
+### File Naming
+
+- General deck script: `./{slug}/marketing/deck-script.md`
+- Prospect deck scripts: `./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md`
+- Derive `{company-slug}` from company name: lowercase, hyphens for spaces, max 50 characters
+</deck_script_spec>
+
 <workflow>
 ## Workflow — Two-Pass Approach
 
-The workflow separates content/narrative decisions (Pass 1) from PPTX rendering (Pass 2). The deck script is the single source of truth — Pass 2 should never need to re-read the research files.
+The workflow separates content/narrative decisions (Pass 1) from PPTX rendering (Pass 2). The deck script is the single source of truth — Pass 2 should never need to re-read the research files. See `<deck_script_spec>` for format details.
 
 ### Pass 1: Write Deck Scripts
 
@@ -111,26 +284,27 @@ The workflow separates content/narrative decisions (Pass 1) from PPTX rendering 
 2. Read qualified-companies.md: extract all companies with industry, evidence, GTM fit, confidence scores
 3. Create ./{slug}/marketing/ directory
 4. Create ./{slug}/marketing/prospect-specific/ directory
-5. Write ./{slug}/marketing/deck-script.md — the general offering deck script:
-   - Metadata header (type, deck name, slug, date, agent, source files)
+5. Write ./{slug}/marketing/deck-script.md — follow the format in `<deck_script_spec>`:
+   - YAML metadata header (type, deck name, slug, date, agent, source files)
    - Design direction section (color palette, visual motif, font pairing, industry tone)
    - One section per slide (Slides 1-8), each containing:
      - `### Content` — the actual words, data points, narrative for the slide
      - `### Visual Direction` — layout pattern, emphasis hierarchy, visual element types, presentation vs. reading differences
-6. For EACH company in qualified-companies.md, write ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md:
-   - Metadata header (type, company name, company slug, slug, date, agent, source files)
+6. For EACH company in qualified-companies.md, write ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md — follow the format in `<deck_script_spec>`:
+   - YAML metadata header (type, company name, company slug, slug, date, agent, source files)
+   - Design direction (inherit palette/motif/fonts from general deck)
    - Slide 1 (Industry Impact): content + visual direction
    - Slide 2 (Company ROI): content + visual direction
    - Derive {company-slug} from company name (lowercase, hyphens, max 50 chars)
 
 ### Pass 2: Render PPTX from Deck Scripts
 
-7. Read ./{slug}/marketing/deck-script.md
+7. Read ./{slug}/marketing/deck-script.md (do NOT re-read research files — the deck script is self-contained)
 8. Invoke /pptx skill to render the general deck:
    - Generate presentation version: ./{slug}/marketing/deck-presentation.pptx
    - Generate reading version: ./{slug}/marketing/deck-reading.pptx
 9. For EACH prospect deck script in ./{slug}/marketing/prospect-specific/:
-   - Read {company-slug}-deck-script.md
+   - Read {company-slug}-deck-script.md (do NOT re-read research files)
    - Invoke /pptx skill to generate presentation version: ./{slug}/marketing/prospect-specific/{company-slug}-presentation.pptx
    - Invoke /pptx skill to generate reading version: ./{slug}/marketing/prospect-specific/{company-slug}-reading.pptx
 10. Run QA cycle on rendered decks
@@ -175,6 +349,10 @@ After generating each deck:
 
 <quality_standards>
 - Read ALL input files completely before generating anything
+- Deck scripts are complete and self-contained — Pass 2 must never re-read research files
+- Every deck script includes: YAML metadata header, design direction section, and all slide sections with both `### Content` and `### Visual Direction` blocks
+- Content blocks include all data points, headlines, and narrative text — no placeholders or TODOs
+- Visual direction captures layout pattern, emphasis hierarchy, visual elements, and presentation/reading differences — but NOT coordinates, font sizes, or hex values
 - 8-slide framework followed exactly for the general deck
 - All 8 "never" rules enforced
 - Presentation version: max 20 words per slide
