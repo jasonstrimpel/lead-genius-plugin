@@ -164,7 +164,7 @@ The pipeline runs 10 phases using teams of specialized AI agents:
 | 4 | Generate scoring rubrics | `scoring-rubrics.md` |
 | 5 | **5 agents in parallel** search for companies | `companies-01..05.md` |
 | 6 | Deduplicate and rank top 10 companies | `qualified-companies.md` |
-| 7 | **7 agents in parallel** — Branch A: marketing content + decks, Branch B: decision maker research | `blog.md`, `linkedin-posts.md`, `case-study.md`, `*.pptx`, `dm-01..05.md` |
+| 7 | **7 agents in parallel** — Branch A: marketing content + decks, Branch B: decision maker research | `blog.md`, `linkedin-posts.md`, `case-study.md`, `deck-script.md`, `*.pptx`, `dm-01..05.md` |
 | 8 | Compile and priority-rank all decision makers | `decision-makers.md` |
 | 9 | Generate personalized outreach for each DM | `outreach.md` |
 
@@ -207,9 +207,11 @@ All output goes to `./{slug}/`:
     ├── blog.md                          # Thought leadership blog post
     ├── linkedin-posts.md                # 5-7 LinkedIn posts
     ├── case-study.md                    # Executive case study
+    ├── deck-script.md                   # General deck script (content + visual direction)
     ├── deck-presentation.pptx           # 8-slide sales deck (live version)
     ├── deck-reading.pptx                # 8-slide sales deck (leave-behind)
     └── prospect-specific/               # Per-company 2-slide decks
+        ├── {company}-deck-script.md     # Prospect deck script
         ├── {company}-presentation.pptx
         └── {company}-reading.pptx
 ```
@@ -221,6 +223,7 @@ All output goes to `./{slug}/`:
 - **`qualified-companies.md`** - The top 10 companies with evidence and fit rationale
 - **`marketing/blog.md`** - Thought leadership blog post following a 7-part narrative arc
 - **`marketing/case-study.md`** - Publication-ready executive case study (Andersen Consulting format)
+- **`marketing/deck-script.md`** - Reviewable deck script with content and visual direction per slide
 - **`marketing/deck-presentation.pptx`** - 8-slide first-call sales deck for live presentation
 - **`marketing/prospect-specific/`** - Customized 2-slide decks for each qualified company
 
@@ -262,7 +265,9 @@ A 1500-2500 word thought leadership piece following the same narrative arc as th
 Publication-ready case study in the Andersen Consulting executive format. Anonymous client, mandatory heading structure, strict cadence requirements. Includes verbatim firm description and contact section.
 
 ### Sales Decks (PPTX)
-Real PowerPoint files generated using the Anthropic `pptx` skill (PptxGenJS). Two versions of every deck:
+Real PowerPoint files generated using the Anthropic `pptx` skill (PptxGenJS). The deck-builder uses a two-pass workflow: first it writes a markdown "deck script" capturing content and visual direction per slide, then renders PPTX from the script. Deck scripts are reviewable intermediates — you can edit narrative framing before re-rendering.
+
+Two versions of every deck:
 - **Presentation version** (≤20 words/slide) - Visual-heavy, for live delivery
 - **Reading version** (≤60 words/slide) - Expanded narrative, for async sharing
 
@@ -284,7 +289,7 @@ The general deck follows an 8-slide first-call framework backed by sales methodo
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.3.0-2026-02-08.md](docs/RELEASE-NOTES-v1.3.0-2026-02-08.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.4.0-2026-02-08.md](docs/RELEASE-NOTES-v1.4.0-2026-02-08.md) for the latest release notes.
 
 ## License
 

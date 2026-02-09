@@ -101,23 +101,39 @@ Generate every deck TWICE:
 </two_versions>
 
 <workflow>
-## Workflow
+## Workflow — Two-Pass Approach
+
+The workflow separates content/narrative decisions (Pass 1) from PPTX rendering (Pass 2). The deck script is the single source of truth — Pass 2 should never need to re-read the research files.
+
+### Pass 1: Write Deck Scripts
 
 1. Read research-brief.md: extract offering overview, ICP, value prop, differentiators, demand signals, competitive landscape, pain points, buyer personas
 2. Read qualified-companies.md: extract all companies with industry, evidence, GTM fit, confidence scores
 3. Create ./{slug}/marketing/ directory
 4. Create ./{slug}/marketing/prospect-specific/ directory
-5. Invoke /pptx skill to generate the general deck:
-   - Build the 8-slide deck following the framework above
+5. Write ./{slug}/marketing/deck-script.md — the general offering deck script:
+   - Metadata header (type, deck name, slug, date, agent, source files)
+   - Design direction section (color palette, visual motif, font pairing, industry tone)
+   - One section per slide (Slides 1-8), each containing:
+     - `### Content` — the actual words, data points, narrative for the slide
+     - `### Visual Direction` — layout pattern, emphasis hierarchy, visual element types, presentation vs. reading differences
+6. For EACH company in qualified-companies.md, write ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md:
+   - Metadata header (type, company name, company slug, slug, date, agent, source files)
+   - Slide 1 (Industry Impact): content + visual direction
+   - Slide 2 (Company ROI): content + visual direction
+   - Derive {company-slug} from company name (lowercase, hyphens, max 50 chars)
+
+### Pass 2: Render PPTX from Deck Scripts
+
+7. Read ./{slug}/marketing/deck-script.md
+8. Invoke /pptx skill to render the general deck:
    - Generate presentation version: ./{slug}/marketing/deck-presentation.pptx
    - Generate reading version: ./{slug}/marketing/deck-reading.pptx
-6. For EACH company in qualified-companies.md, invoke /pptx skill to generate a prospect-specific 2-slide deck:
-   - Slide 1: How the offering improves this company's industry — tailored version of the macro shift and quantified pain, using industry-specific data from the company's entry in qualified-companies.md
-   - Slide 2: How the offering improves ROI for this specific company — uses the company's evidence, GTM fit rationale, and projected outcomes based on the value proposition
-   - Generate presentation version: ./{slug}/marketing/prospect-specific/{company-slug}-presentation.pptx
-   - Generate reading version: ./{slug}/marketing/prospect-specific/{company-slug}-reading.pptx
-   - Derive {company-slug} from company name (lowercase, hyphens, max 50 chars)
-7. Run QA cycle on generated decks
+9. For EACH prospect deck script in ./{slug}/marketing/prospect-specific/:
+   - Read {company-slug}-deck-script.md
+   - Invoke /pptx skill to generate presentation version: ./{slug}/marketing/prospect-specific/{company-slug}-presentation.pptx
+   - Invoke /pptx skill to generate reading version: ./{slug}/marketing/prospect-specific/{company-slug}-reading.pptx
+10. Run QA cycle on rendered decks
 </workflow>
 
 <design_standards>
@@ -146,11 +162,13 @@ After generating each deck:
 <output_requirements>
 ## Outputs
 
-**General deck (2 files):**
+**General deck (3 files):**
+- ./{slug}/marketing/deck-script.md (deck script)
 - ./{slug}/marketing/deck-presentation.pptx
 - ./{slug}/marketing/deck-reading.pptx
 
-**Prospect-specific decks (~20 files for 10 companies):**
+**Prospect-specific decks (~30 files for 10 companies):**
+- ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md (deck script)
 - ./{slug}/marketing/prospect-specific/{company-slug}-presentation.pptx
 - ./{slug}/marketing/prospect-specific/{company-slug}-reading.pptx
 </output_requirements>

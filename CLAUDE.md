@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A Claude Code plugin (v1.3.0) that provides the `/lead-genius` command — a 10-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches parallel research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, PPTX sales decks).
+A Claude Code plugin (v1.4.0) that provides the `/lead-genius` command — a 10-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches parallel research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, PPTX sales decks).
 
 There is no build system, package manager, or test suite. The codebase is entirely markdown files: agent definitions, commands, and skills interpreted by the Claude Code plugin runtime.
 
@@ -26,7 +26,7 @@ The orchestrator (`commands/lead-genius.md`) drives a 10-phase pipeline that bra
 
 **Coordination model:** File-based. Parallel researchers write independent output files; synthesizer agents read all files, deduplicate, and merge. No inter-agent messaging.
 
-**Output directory:** `./{slug}/` at project root, where slug is URL-safe derived from the offering. Each phase writes to a specific subdirectory (e.g., `company-research/`, `decision-makers/`).
+**Output directory:** `./{slug}/` at project root, where slug is URL-safe derived from the offering. Each phase writes to a specific subdirectory (e.g., `company-research/`, `decision-makers/`). The deck-builder writes intermediate markdown deck scripts alongside the rendered PPTX files in `marketing/`.
 
 ### Agent Roles
 
@@ -40,7 +40,7 @@ The orchestrator (`commands/lead-genius.md`) drives a 10-phase pipeline that bra
 | `dm-researcher` | Find decision makers at target companies | 5x parallel |
 | `dm-compiler` | Compile and priority-rank all contacts | 1x |
 | `content-writer` | Generate blog, LinkedIn posts, case study | 1x |
-| `deck-builder` | Generate PPTX decks (general + prospect-specific) via `/pptx` skill | 1x |
+| `deck-builder` | Write deck scripts then render PPTX decks (general + prospect-specific) via `/pptx` skill | 1x |
 | `outreach-composer` | Generate tier-matched emails via `/executive-outreach` skill | 1x |
 
 ### Key Design Constraints

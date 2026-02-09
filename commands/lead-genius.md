@@ -246,7 +246,9 @@ Files Created:
 - Blog: ./{slug}/marketing/blog.md
 - LinkedIn Posts: ./{slug}/marketing/linkedin-posts.md
 - Case Study: ./{slug}/marketing/case-study.md
+- General Deck Script: ./{slug}/marketing/deck-script.md
 - General Deck: ./{slug}/marketing/deck-presentation.pptx, deck-reading.pptx
+- Prospect Deck Scripts: ./{slug}/marketing/prospect-specific/*-deck-script.md
 - Prospect Decks: ./{slug}/marketing/prospect-specific/*.pptx
 
 Results:
@@ -254,6 +256,7 @@ Results:
 - Decision Makers: {count from decision-makers.md}
 - Outreach Messages: {count from outreach.md}
 - Marketing Content: blog + {N} LinkedIn posts + case study
+- Deck Scripts: 1 general + {N} prospect-specific
 - Decks Generated: 2 general + {N} prospect-specific
 
 Next Steps:
