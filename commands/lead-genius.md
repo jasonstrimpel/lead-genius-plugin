@@ -163,47 +163,56 @@ Spawn the company-synthesizer agent:
 
 Wait for completion.
 
-## PHASE 7: PARALLEL BRANCH DISPATCH
+## PHASE 7: PARALLEL DISPATCH (7 AGENTS)
 
-After company synthesis, the pipeline forks into two parallel branches.
+**CRITICAL: This phase launches EXACTLY 7 agents in a SINGLE message with 7 Task tool calls. Do NOT skip any. Do NOT launch them in separate messages.**
 
-### Pre-dispatch: Install deck dependencies
+### Pre-dispatch setup
 
-Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
+1. Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
+2. Read ./{slug}/companies/qualified-companies.md. Count total companies (should be ~10, up to 20).
+3. Split companies across 5 DM researchers evenly. For example with 10 companies: 01 gets 1-2, 02 gets 3-4, 03 gets 5-6, 04 gets 7-8, 05 gets 9-10.
 
-### Branch dispatch
+### Dispatch all 7 agents simultaneously
 
-First, read ./{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
+Send ONE message containing ALL 7 Task tool calls below:
 
-Split companies across 5 DM researchers evenly. For example with 10 companies:
-- Researcher 01: companies 1-2
-- Researcher 02: companies 3-4
-- Researcher 03: companies 5-6
-- Researcher 04: companies 7-8
-- Researcher 05: companies 9-10
-
-Spawn ALL 7 agents SIMULTANEOUSLY in a single message with 7 Task calls:
-
-**Branch A — Marketing (2 agents):**
-
-Content writer:
+**Agent 1 — Content Writer (marketing):**
 - subagent_type: "content-writer"
 - prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Generate marketing content. Write blog.md, linkedin-posts.md, and case-study.md to ./{slug}/marketing/"
 - description: "Writing marketing content → ./{slug}/marketing/"
 
-Deck builder:
+**Agent 2 — Deck Builder (marketing):**
 - subagent_type: "deck-builder"
-- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Invoke /pptx skill to generate all PPTX decks. Write general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific decks to ./{slug}/marketing/prospect-specific/"
-- description: "Building PPTX decks → ./{slug}/marketing/"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Write deck scripts then invoke /pptx skill to render all PPTX decks. Write deck scripts and general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific deck scripts and decks to ./{slug}/marketing/prospect-specific/"
+- description: "Building deck scripts + PPTX decks → ./{slug}/marketing/"
 
-**Branch B — DM Research (5 agents):**
-
-For each instance NN (01 through 05):
+**Agent 3 — DM Researcher 01:**
 - subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-{NN}.md"
-- description: "Researching DMs for {N} companies → ./{slug}/decision-maker-research/dm-{NN}.md"
+- prompt: "[Slug: {slug}] [Instance: 01] [Assigned Companies: {companies 1-2}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-01.md"
+- description: "Researching DMs 01 → ./{slug}/decision-maker-research/dm-01.md"
 
-Wait for ALL 7 to complete.
+**Agent 4 — DM Researcher 02:**
+- subagent_type: "dm-researcher"
+- prompt: "[Slug: {slug}] [Instance: 02] [Assigned Companies: {companies 3-4}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-02.md"
+- description: "Researching DMs 02 → ./{slug}/decision-maker-research/dm-02.md"
+
+**Agent 5 — DM Researcher 03:**
+- subagent_type: "dm-researcher"
+- prompt: "[Slug: {slug}] [Instance: 03] [Assigned Companies: {companies 5-6}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-03.md"
+- description: "Researching DMs 03 → ./{slug}/decision-maker-research/dm-03.md"
+
+**Agent 6 — DM Researcher 04:**
+- subagent_type: "dm-researcher"
+- prompt: "[Slug: {slug}] [Instance: 04] [Assigned Companies: {companies 7-8}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-04.md"
+- description: "Researching DMs 04 → ./{slug}/decision-maker-research/dm-04.md"
+
+**Agent 7 — DM Researcher 05:**
+- subagent_type: "dm-researcher"
+- prompt: "[Slug: {slug}] [Instance: 05] [Assigned Companies: {companies 9-10}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-05.md"
+- description: "Researching DMs 05 → ./{slug}/decision-maker-research/dm-05.md"
+
+Wait for ALL 7 to complete. Do NOT proceed to Phase 8 until every agent has returned.
 
 ## PHASE 8: DM COMPILATION
 
