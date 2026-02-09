@@ -163,56 +163,25 @@ Spawn the company-synthesizer agent:
 
 Wait for completion.
 
-## PHASE 7: PARALLEL DISPATCH (7 AGENTS)
+## PHASE 7: DECISION MAKER RESEARCH (PARALLEL)
 
-**CRITICAL: This phase launches EXACTLY 7 agents in a SINGLE message with 7 Task tool calls. Do NOT skip any. Do NOT launch them in separate messages.**
+Read ./{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
 
-### Pre-dispatch setup
+Split companies across 5 DM researchers evenly. For example with 10 companies:
+- Researcher 01: companies 1-2
+- Researcher 02: companies 3-4
+- Researcher 03: companies 5-6
+- Researcher 04: companies 7-8
+- Researcher 05: companies 9-10
 
-1. Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
-2. Read ./{slug}/companies/qualified-companies.md. Count total companies (should be ~10, up to 20).
-3. Split companies across 5 DM researchers evenly. For example with 10 companies: 01 gets 1-2, 02 gets 3-4, 03 gets 5-6, 04 gets 7-8, 05 gets 9-10.
+Spawn 5 dm-researcher agents SIMULTANEOUSLY in a single message with 5 Task calls:
 
-### Dispatch all 7 agents simultaneously
-
-Send ONE message containing ALL 7 Task tool calls below:
-
-**Agent 1 — Content Writer (marketing):**
-- subagent_type: "content-writer"
-- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Generate marketing content. Write blog.md, linkedin-posts.md, and case-study.md to ./{slug}/marketing/"
-- description: "Writing marketing content → ./{slug}/marketing/"
-
-**Agent 2 — Deck Builder (marketing):**
-- subagent_type: "deck-builder"
-- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Write deck scripts then invoke /pptx skill to render all PPTX decks. Write deck scripts and general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific deck scripts and decks to ./{slug}/marketing/prospect-specific/"
-- description: "Building deck scripts + PPTX decks → ./{slug}/marketing/"
-
-**Agent 3 — DM Researcher 01:**
+For each instance NN (01 through 05):
 - subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: 01] [Assigned Companies: {companies 1-2}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-01.md"
-- description: "Researching DMs 01 → ./{slug}/decision-maker-research/dm-01.md"
+- prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-{NN}.md"
+- description: "Researching DMs {NN}/05 → ./{slug}/decision-maker-research/dm-{NN}.md"
 
-**Agent 4 — DM Researcher 02:**
-- subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: 02] [Assigned Companies: {companies 3-4}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-02.md"
-- description: "Researching DMs 02 → ./{slug}/decision-maker-research/dm-02.md"
-
-**Agent 5 — DM Researcher 03:**
-- subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: 03] [Assigned Companies: {companies 5-6}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-03.md"
-- description: "Researching DMs 03 → ./{slug}/decision-maker-research/dm-03.md"
-
-**Agent 6 — DM Researcher 04:**
-- subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: 04] [Assigned Companies: {companies 7-8}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-04.md"
-- description: "Researching DMs 04 → ./{slug}/decision-maker-research/dm-04.md"
-
-**Agent 7 — DM Researcher 05:**
-- subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: 05] [Assigned Companies: {companies 9-10}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-05.md"
-- description: "Researching DMs 05 → ./{slug}/decision-maker-research/dm-05.md"
-
-Wait for ALL 7 to complete. Do NOT proceed to Phase 8 until every agent has returned.
+Wait for ALL 5 to complete.
 
 ## PHASE 8: DM COMPILATION
 
@@ -232,7 +201,31 @@ Spawn the outreach-composer agent:
 
 Wait for completion.
 
-## PHASE 10: COMPLETION
+## PHASE 10: MARKETING CONTENT
+
+Spawn the content-writer agent:
+- subagent_type: "content-writer"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Generate marketing content. Write blog.md, linkedin-posts.md, and case-study.md to ./{slug}/marketing/"
+- description: "Writing marketing content → ./{slug}/marketing/"
+
+Wait for completion.
+
+## PHASE 11: DECK GENERATION
+
+### Pre-dispatch: Install deck dependencies
+
+Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
+
+### Generate decks
+
+Spawn the deck-builder agent:
+- subagent_type: "deck-builder"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Write deck scripts then invoke /pptx skill to render all PPTX decks. Write deck scripts and general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific deck scripts and decks to ./{slug}/marketing/prospect-specific/"
+- description: "Building deck scripts + PPTX decks → ./{slug}/marketing/"
+
+Wait for completion.
+
+## PHASE 12: COMPLETION
 
 Print a summary with actual counts from the generated files:
 

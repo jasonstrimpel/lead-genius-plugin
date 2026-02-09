@@ -153,7 +153,7 @@ Copy-Item "$HOME\Documents\pitch-deck.pdf" -Destination collateral\
 
 ## How It Works
 
-The pipeline runs 10 phases using teams of specialized AI agents:
+The pipeline runs 12 phases using teams of specialized AI agents:
 
 | Phase | What Happens | Output |
 |-------|-------------|--------|
@@ -164,13 +164,15 @@ The pipeline runs 10 phases using teams of specialized AI agents:
 | 4 | Generate scoring rubrics | `scoring-rubrics.md` |
 | 5 | **5 agents in parallel** search for companies | `companies-01..05.md` |
 | 6 | Deduplicate and rank top 10 companies | `qualified-companies.md` |
-| 7 | **7 agents in parallel** — Branch A: marketing content + decks, Branch B: decision maker research | `blog.md`, `linkedin-posts.md`, `case-study.md`, `deck-script.md`, `*.pptx`, `dm-01..05.md` |
+| 7 | **5 agents in parallel** research decision makers | `dm-01..05.md` |
 | 8 | Compile and priority-rank all decision makers | `decision-makers.md` |
 | 9 | Generate personalized outreach for each DM | `outreach.md` |
+| 10 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
+| 11 | Generate deck scripts and PPTX sales decks | `deck-script.md`, `*.pptx` |
 
-### Parallel Agent Teams and Branching
+### Parallel Agent Teams
 
-Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 forks into two branches that run simultaneously: Branch A launches a content writer and deck builder to produce marketing materials, while Branch B launches 5 DM researchers. All 7 agents run at the same time, then the pipeline continues sequentially with DM compilation and outreach.
+Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 spawns 5 DM researchers. All other phases run sequentially, each spawning a single agent.
 
 ## Output Structure
 
