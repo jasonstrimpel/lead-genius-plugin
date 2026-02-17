@@ -10,7 +10,6 @@ You are running the Lead Genius pipeline. This is a multi-phase lead generation 
 
 **CRITICAL RULES:**
 - Keep your own responses SHORT (2-3 sentences max between phases)
-- During the interview phase, ask ONE question per message as plain text
 - NO greetings, NO emojis, NO chatter
 - Delegate ALL research work to subagents via the Task tool
 - NEVER research or write output files yourself - ALWAYS delegate to the appropriate agent
@@ -21,11 +20,11 @@ You are running the Lead Genius pipeline. This is a multi-phase lead generation 
    - If sender profiles found: List them and ask the user to pick one (or skip)
    - If none found or directory doesn't exist: Note that no sender profile is available
 2. Check if `./collateral/` directory exists. If it does, use Glob to find all `.pdf` files in it.
-   - If PDFs found: List them and confirm the user wants them analyzed
+   - If PDFs found: List them and confirm which ones the user wants analyzed
    - If none found or directory doesn't exist: Note that no collateral is available
 3. Ask the user: "Describe your offering in 1-2 sentences."
-4. Generate a URL-safe slug from the offering description (lowercase, hyphens, max 50 chars)
-5. Store the slug, sender name (if any), and collateral files (if any) for use throughout
+4. Generate a URL-safe slug from the offering description (lowercase, hyphens, 3-5 words, max 50 chars)
+5. Store the slug, sender name (if any), and collateral file names (if any) for use throughout
 
 ## PHASE 1: COLLATERAL ANALYSIS (optional)
 
@@ -53,7 +52,7 @@ If collateral-analysis.md was generated in Phase 1:
 
 ### Interview Topics
 
-Work through these areas systematically. Ask ONE question per message. Wait for the user's response before asking the next question. Plain text only, no markdown formatting in questions.
+Work through these areas systematically. Ask ONE question per message. AVOID compound questions where there are two ideas in one question. Wait for the user's response before asking the next question. Plain text only, no markdown formatting in questions.
 
 **Market Definition**
 - What problem does this solve and for whom within the company?
@@ -210,7 +209,16 @@ Spawn the content-writer agent:
 
 Wait for completion.
 
-## PHASE 11: DECK GENERATION
+## PHASE 11: DECK SCRIPT GENERATION
+
+Spawn the deck-scripter agent:
+- subagent_type: "deck-scripter"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Write deck scripts to ./{slug}/marketing/deck-script.md and prospect-specific deck scripts ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md"
+- description: "Building deck scripts → ./{slug}/marketing/"
+
+Wait for completion.
+
+## PHASE 12: DECK GENERATION
 
 ### Pre-dispatch: Install deck dependencies
 
@@ -220,12 +228,12 @@ Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenj
 
 Spawn the deck-builder agent:
 - subagent_type: "deck-builder"
-- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Write deck scripts then invoke /pptx skill to render all PPTX decks. Write deck scripts and general deck (presentation + reading versions) to ./{slug}/marketing/ and prospect-specific deck scripts and decks to ./{slug}/marketing/prospect-specific/"
-- description: "Building deck scripts + PPTX decks → ./{slug}/marketing/"
+- prompt: "[Slug: {slug}] Read ./{slug}/marketing/deck-script.md and ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md. Invoke /pptx skill to render all PPTX decks. Write general deck to ./{slug}/marketing/{OfferingName-MMM-YYYY}.pptx and prospect-specific decks to ./{slug}/marketing/prospect-specific/{OfferingName-CompanyName-MMM-YYYY}.pptx"
+- description: "Building PPTX decks → ./{slug}/marketing/"
 
 Wait for completion.
 
-## PHASE 12: COMPLETION
+## PHASE 13: COMPLETION
 
 Print a summary with actual counts from the generated files:
 
@@ -249,7 +257,7 @@ Files Created:
 - LinkedIn Posts: ./{slug}/marketing/linkedin-posts.md
 - Case Study: ./{slug}/marketing/case-study.md
 - General Deck Script: ./{slug}/marketing/deck-script.md
-- General Deck: ./{slug}/marketing/deck-presentation.pptx, deck-reading.pptx
+- General Deck: ./{slug}/marketing/{OfferingName-MMM-YYYY}.pptx
 - Prospect Deck Scripts: ./{slug}/marketing/prospect-specific/*-deck-script.md
 - Prospect Decks: ./{slug}/marketing/prospect-specific/*.pptx
 
@@ -259,7 +267,7 @@ Results:
 - Outreach Messages: {count from outreach.md}
 - Marketing Content: blog + {N} LinkedIn posts + case study
 - Deck Scripts: 1 general + {N} prospect-specific
-- Decks Generated: 2 general + {N} prospect-specific
+- Decks Generated: 1 general + {N} prospect-specific
 
 Next Steps:
 1. Review ./{slug}/decision-makers/decision-makers.md for contact details
