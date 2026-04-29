@@ -1,5 +1,5 @@
 ---
-name: deck-builder
+name: deck-scripter
 description: |
   Use this agent to generate sales deck scripts (general offering deck script + prospect-specific deck scripts) from GTM research.
   <example>Context: Company synthesis is complete with research-brief.md and qualified-companies.md. user: "Generate sales decks" assistant: "Spawning deck-scripter to create the general offering deck scripts and prospect-specific deck scripts" <commentary>The deck-scripter reads research outputs, markdown files in the marketing directory.</commentary></example>
