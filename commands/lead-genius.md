@@ -182,16 +182,25 @@ For each instance NN (01 through 05):
 
 Wait for ALL 5 to complete.
 
-## PHASE 8: DM COMPILATION
+## PHASE 8: DM ENRICHMENT
+
+Spawn the dm-enricher agent:
+- subagent_type: "dm-enricher"
+- prompt: "[Slug: {slug}] Glob all dm-*.md in ./{slug}/decision-maker-research/. For each unique contact, attempt ZoomInfo enrich_contacts as a first-attempt email check. Apply precedence rules (Verified (Web) preserved; Pattern-matched and Unverified upgraded to Verified (ZoomInfo) on match). On MCP unavailability, emit warning banner and pass through original dm-researcher data. Write to ./{slug}/decision-maker-research/dm-enriched.md"
+- description: "Enriching DM emails via ZoomInfo → ./{slug}/decision-maker-research/dm-enriched.md"
+
+Wait for completion.
+
+## PHASE 9: DM COMPILATION
 
 Spawn the dm-compiler agent:
 - subagent_type: "dm-compiler"
-- prompt: "[Slug: {slug}] Glob all dm-*.md in ./{slug}/decision-maker-research/. Read ALL files. Read ./{slug}/companies/qualified-companies.md and ./{slug}/go-to-market/scoring-rubrics.md. Compile, deduplicate, calculate priority scores, rank. Write to ./{slug}/decision-makers/decision-makers.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/decision-maker-research/dm-enriched.md. Read ./{slug}/companies/qualified-companies.md and ./{slug}/go-to-market/scoring-rubrics.md. Compile, deduplicate, calculate priority scores, rank. Write to ./{slug}/decision-makers/decision-makers.md"
 - description: "Compiling DM list → ./{slug}/decision-makers/decision-makers.md"
 
 Wait for completion.
 
-## PHASE 9: OUTREACH GENERATION
+## PHASE 10: OUTREACH GENERATION
 
 Spawn the outreach-composer agent:
 - subagent_type: "outreach-composer"
@@ -200,7 +209,7 @@ Spawn the outreach-composer agent:
 
 Wait for completion.
 
-## PHASE 10: MARKETING CONTENT
+## PHASE 11: MARKETING CONTENT
 
 Spawn the content-writer agent:
 - subagent_type: "content-writer"
@@ -209,7 +218,7 @@ Spawn the content-writer agent:
 
 Wait for completion.
 
-## PHASE 11: DECK SCRIPT GENERATION
+## PHASE 12: DECK SCRIPT GENERATION
 
 Spawn the deck-scripter agent:
 - subagent_type: "deck-scripter"
@@ -218,7 +227,7 @@ Spawn the deck-scripter agent:
 
 Wait for completion.
 
-## PHASE 12: DECK GENERATION
+## PHASE 13: DECK GENERATION
 
 ### Pre-dispatch: Install deck dependencies
 
@@ -233,7 +242,7 @@ Spawn the deck-builder agent:
 
 Wait for completion.
 
-## PHASE 13: COMPLETION
+## PHASE 14: COMPLETION
 
 Print a summary with actual counts from the generated files:
 
@@ -251,6 +260,7 @@ Files Created:
 - Company Research: ./{slug}/company-research/companies-*.md (5 files)
 - Qualified Companies: ./{slug}/companies/qualified-companies.md
 - DM Research: ./{slug}/decision-maker-research/dm-*.md (5 files)
+- DM Enrichment: ./{slug}/decision-maker-research/dm-enriched.md
 - Decision Makers: ./{slug}/decision-makers/decision-makers.md
 - Outreach: ./{slug}/outreach.md
 - Blog: ./{slug}/marketing/blog.md
