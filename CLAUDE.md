@@ -20,7 +20,7 @@ skills/pptx/                  # PPTX generation skill from anthropics/skills
 
 ## Architecture
 
-The orchestrator (`commands/lead-genius.md`) drives a 12-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
+The orchestrator (`commands/lead-genius.md`) drives a 13-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
 
 **Phase flow:** Setup → Collateral Analysis → GTM Interview → Synthesis → Scoring Rubrics → Company Research (5 parallel) → Company Synthesis → DM Research (5 parallel) → DM Enrichment (ZoomInfo) → DM Compilation → Outreach → Marketing Content → Deck Script Generation → Deck Generation → Completion
 
