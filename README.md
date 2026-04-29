@@ -153,7 +153,7 @@ Copy-Item "$HOME\Documents\pitch-deck.pdf" -Destination collateral\
 
 ## How It Works
 
-The pipeline runs 12 phases using teams of specialized AI agents:
+The pipeline runs 13 phases using teams of specialized AI agents:
 
 | Phase | What Happens | Output |
 |-------|-------------|--------|
@@ -165,14 +165,16 @@ The pipeline runs 12 phases using teams of specialized AI agents:
 | 5 | **5 agents in parallel** search for companies | `companies-01..05.md` |
 | 6 | Deduplicate and rank top 10 companies | `qualified-companies.md` |
 | 7 | **5 agents in parallel** research decision makers | `dm-01..05.md` |
-| 8 | Compile and priority-rank all decision makers | `decision-makers.md` |
-| 9 | Generate personalized outreach for each DM | `outreach.md` |
-| 10 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
-| 11 | Generate deck scripts and PPTX sales decks | `deck-script.md`, `*.pptx` |
+| 8 | Enrich DM emails via ZoomInfo MCP (first attempt) | `dm-enriched.md` |
+| 9 | Compile and priority-rank all decision makers | `decision-makers.md` |
+| 10 | Generate personalized outreach for each DM | `outreach.md` |
+| 11 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
+| 12 | Generate deck scripts and PPTX sales decks | `deck-script.md`, `*.pptx` |
+| 13 | Completion summary | - |
 
 ### Parallel Agent Teams
 
-Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 spawns 5 DM researchers. All other phases run sequentially, each spawning a single agent.
+Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 spawns 5 DM researchers. All other phases run sequentially, each spawning a single agent. Phase 8 runs a single dm-enricher agent that calls the ZoomInfo MCP to enrich decision-maker emails before compilation.
 
 ## Output Structure
 
