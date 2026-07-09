@@ -162,19 +162,19 @@ The pipeline runs 14 phases using teams of specialized AI agents:
 | 2 | Interview you about offering and GTM strategy | `offering.md`, `gtm-strategy.md` |
 | 3 | Synthesize interview into research brief | `research-brief.md` |
 | 4 | Generate scoring rubrics | `scoring-rubrics.md` |
-| 5 | **5 agents in parallel** search for companies | `companies-01..05.md` |
-| 6 | Deduplicate and rank top 10 companies | `qualified-companies.md` |
-| 7 | **5 agents in parallel** research decision makers | `dm-01..05.md` |
-| 8 | Enrich DM emails via ZoomInfo MCP (first attempt) | `dm-enriched.md` |
-| 9 | Compile and priority-rank all decision makers | `decision-makers.md` |
+| 5 | Search for companies (single sequential agent) | `companies.md` |
+| 6 | Score and rank top 10 companies | `qualified-companies.md` |
+| 7 | Research decision makers (single sequential agent) | `dm-research.md` |
+| 8 | Enrich DM emails (ZoomInfo primary, web/pattern fallback) | `dm-enriched.md` |
+| 9 | Priority-rank all decision makers | `decision-makers.md` |
 | 10 | Generate personalized outreach for each DM | `outreach.md` |
 | 11 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
 | 12 | Generate sales deck scripts | `deck-script.md` |
 | 13 | Completion summary | - |
 
-### Parallel Agent Teams
+### Sequential Agents
 
-Phases 5 and 7 use parallel agents for speed. Phase 5 spawns 5 company researchers. Phase 7 spawns 5 DM researchers. All other phases run sequentially, each spawning a single agent. Phase 8 runs a single dm-enricher agent that calls the ZoomInfo MCP to enrich decision-maker emails before compilation.
+Every phase runs a single agent in sequence. Company research (Phase 5) and decision-maker research (Phase 7) each run as one agent covering the full scope in a single pass, so no company or contact is discovered twice and no downstream deduplication is needed. Phase 8 runs the dm-enricher, which uses the ZoomInfo MCP as the **primary** email source and falls back to the internet-search / pattern-matched emails from Phase 7 when ZoomInfo cannot find a contact or its API credits are exhausted.
 
 ## Output Structure
 
@@ -191,19 +191,12 @@ All output goes to `./{slug}/`:
 │   ├── research-brief.md               # Combined research brief
 │   └── scoring-rubrics.md              # Scoring criteria
 ├── company-research/
-│   ├── companies-01.md                  # Raw research (5 files)
-│   ├── companies-02.md
-│   ├── companies-03.md
-│   ├── companies-04.md
-│   └── companies-05.md
+│   └── companies.md                     # Company research (single file)
 ├── companies/
 │   └── qualified-companies.md           # Top 10 ranked companies
 ├── decision-maker-research/
-│   ├── dm-01.md                         # Raw research (5 files)
-│   ├── dm-02.md
-│   ├── dm-03.md
-│   ├── dm-04.md
-│   └── dm-05.md
+│   ├── dm-research.md                    # DM research (single file)
+│   └── dm-enriched.md                    # ZoomInfo-enriched contacts (primary + fallback)
 ├── decision-makers/
 │   └── decision-makers.md               # Priority-ranked contacts
 ├── outreach.md                          # Personalized emails
@@ -284,7 +277,7 @@ The general deck script follows an 8-slide first-call framework backed by sales 
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.6.0-2026-07-09.md](docs/RELEASE-NOTES-v1.6.0-2026-07-09.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.7.0-2026-07-09.md](docs/RELEASE-NOTES-v1.7.0-2026-07-09.md) for the latest release notes.
 
 ## License
 

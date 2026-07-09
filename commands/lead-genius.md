@@ -142,52 +142,39 @@ Spawn the scoring-strategist agent:
 
 Wait for completion.
 
-## PHASE 5: COMPANY RESEARCH (PARALLEL)
+## PHASE 5: COMPANY RESEARCH
 
-Spawn 5 company-researcher agents SIMULTANEOUSLY in a single message with 5 Task calls:
-
-For each instance NN (01 through 05):
+Spawn a single company-researcher agent (runs sequentially — no parallel instances, so no company is discovered twice):
 - subagent_type: "company-researcher"
-- prompt: "[Slug: {slug}] [Instance: {NN}] Read ./{slug}/go-to-market/research-brief.md. Search for companies matching the GTM strategy. Use varied search queries targeting different signal types. Find 7-10 qualified companies. Write to ./{slug}/company-research/companies-{NN}.md"
-- description: "Researching companies {NN}/05 → ./{slug}/company-research/companies-{NN}.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md. Search for companies matching the GTM strategy. Use varied search queries targeting different signal types, industries, and regions. Find 15-20 distinct qualified companies (no duplicates). Write to ./{slug}/company-research/companies.md"
+- description: "Researching companies → ./{slug}/company-research/companies.md"
 
-Wait for ALL 5 to complete.
+Wait for completion.
 
 ## PHASE 6: COMPANY SYNTHESIS
 
 Spawn the company-synthesizer agent:
 - subagent_type: "company-synthesizer"
-- prompt: "[Slug: {slug}] Glob all companies-*.md in ./{slug}/company-research/. Read ALL files. Read ./{slug}/go-to-market/scoring-rubrics.md. Deduplicate, merge, apply confidence scoring (1-5), select top 10. Write to ./{slug}/companies/qualified-companies.md"
-- description: "Deduping/merging companies → ./{slug}/companies/qualified-companies.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/company-research/companies.md and ./{slug}/go-to-market/scoring-rubrics.md. Apply confidence scoring (1-5) and select the top 10. Write to ./{slug}/companies/qualified-companies.md"
+- description: "Scoring/ranking companies → ./{slug}/companies/qualified-companies.md"
 
 Wait for completion.
 
-## PHASE 7: DECISION MAKER RESEARCH (PARALLEL)
+## PHASE 7: DECISION MAKER RESEARCH
 
-Read ./{slug}/companies/qualified-companies.md to get the list of top companies. Count total companies (should be ~10, up to 20).
-
-Split companies across 5 DM researchers evenly. For example with 10 companies:
-- Researcher 01: companies 1-2
-- Researcher 02: companies 3-4
-- Researcher 03: companies 5-6
-- Researcher 04: companies 7-8
-- Researcher 05: companies 9-10
-
-Spawn 5 dm-researcher agents SIMULTANEOUSLY in a single message with 5 Task calls:
-
-For each instance NN (01 through 05):
+Spawn a single dm-researcher agent (runs sequentially across every qualified company — no parallel instances, no assigned subsets, so no contact is discovered twice):
 - subagent_type: "dm-researcher"
-- prompt: "[Slug: {slug}] [Instance: {NN}] [Assigned Companies: {list company names}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research ONLY your assigned companies: {list}. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-{NN}.md"
-- description: "Researching DMs {NN}/05 → ./{slug}/decision-maker-research/dm-{NN}.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/go-to-market/research-brief.md and ./{slug}/companies/qualified-companies.md. Research decision makers at ALL qualified companies. Find 3-5 most relevant decision makers per company. Write to ./{slug}/decision-maker-research/dm-research.md"
+- description: "Researching DMs → ./{slug}/decision-maker-research/dm-research.md"
 
-Wait for ALL 5 to complete.
+Wait for completion.
 
 ## PHASE 8: DM ENRICHMENT
 
 Spawn the dm-enricher agent:
 - subagent_type: "dm-enricher"
-- prompt: "[Slug: {slug}] Glob all dm-*.md in ./{slug}/decision-maker-research/. For each unique contact, attempt ZoomInfo enrich_contacts as a first-attempt email check. Apply precedence rules (Verified (Web) preserved; Pattern-matched and Unverified upgraded to Verified (ZoomInfo) on match). On MCP unavailability, emit warning banner and pass through original dm-researcher data. Write to ./{slug}/decision-maker-research/dm-enriched.md"
-- description: "Enriching DM emails via ZoomInfo → ./{slug}/decision-maker-research/dm-enriched.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/decision-maker-research/dm-research.md. ZoomInfo is the PRIMARY email source: for each unique contact, call ZoomInfo enrich_contacts and use the ZoomInfo email on a confident match. Fall back to the dm-researcher internet-search / pattern-matched email when ZoomInfo cannot find the contact, returns an ambiguous result, or its API credits are exhausted. Stop calling ZoomInfo once credits are exhausted. On MCP unavailability, emit a warning banner and fall back to dm-researcher emails. Write to ./{slug}/decision-maker-research/dm-enriched.md"
+- description: "Enriching DM emails via ZoomInfo (primary) → ./{slug}/decision-maker-research/dm-enriched.md"
 
 Wait for completion.
 
@@ -195,8 +182,8 @@ Wait for completion.
 
 Spawn the dm-compiler agent:
 - subagent_type: "dm-compiler"
-- prompt: "[Slug: {slug}] Read ./{slug}/decision-maker-research/dm-enriched.md. Read ./{slug}/companies/qualified-companies.md and ./{slug}/go-to-market/scoring-rubrics.md. Compile, deduplicate, calculate priority scores, rank. Write to ./{slug}/decision-makers/decision-makers.md"
-- description: "Compiling DM list → ./{slug}/decision-makers/decision-makers.md"
+- prompt: "[Slug: {slug}] Read ./{slug}/decision-maker-research/dm-enriched.md, ./{slug}/companies/qualified-companies.md, and ./{slug}/go-to-market/scoring-rubrics.md. Calculate priority scores and rank (the input is already duplicate-free — no deduplication needed). Write to ./{slug}/decision-makers/decision-makers.md"
+- description: "Ranking DM list → ./{slug}/decision-makers/decision-makers.md"
 
 Wait for completion.
 
@@ -242,9 +229,9 @@ Files Created:
 - Collateral Analysis: ./{slug}/collateral/collateral-analysis.md (if applicable)
 - Research Brief: ./{slug}/go-to-market/research-brief.md
 - Scoring Rubrics: ./{slug}/go-to-market/scoring-rubrics.md
-- Company Research: ./{slug}/company-research/companies-*.md (5 files)
+- Company Research: ./{slug}/company-research/companies.md
 - Qualified Companies: ./{slug}/companies/qualified-companies.md
-- DM Research: ./{slug}/decision-maker-research/dm-*.md (5 files)
+- DM Research: ./{slug}/decision-maker-research/dm-research.md
 - DM Enrichment: ./{slug}/decision-maker-research/dm-enriched.md
 - Decision Makers: ./{slug}/decision-makers/decision-makers.md
 - Outreach: ./{slug}/outreach.md
