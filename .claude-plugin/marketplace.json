@@ -4,16 +4,16 @@
   "description": "Lead Genius lead generation plugin for Claude Code and Claude Cowork",
   "owner": {
     "name": "Jason Strimpel",
-    "email": "jason@example.com"
+    "email": "jason.strimpel@andersenconsulting.com"
   },
   "plugins": [
     {
       "name": "lead-genius",
       "description": "AI-powered lead generation pipeline. Run /lead-genius to find qualified companies, identify decision makers, and generate personalized outreach emails.",
-      "version": "1.2.0",
+      "version": "1.6.0",
       "author": {
         "name": "Jason Strimpel",
-        "email": "jason@example.com"
+        "email": "jason.strimpel@andersenconsulting.com"
       },
       "source": {
         "source": "url",

@@ -1,6 +1,6 @@
 # Lead Genius Plugin
 
-AI-powered lead generation pipeline for Claude Code and Claude Cowork. Find qualified companies, identify decision makers, generate personalized outreach emails, and produce marketing content (blog, LinkedIn posts, executive case study, PPTX sales decks) through a single conversational command.
+AI-powered lead generation pipeline for Claude Code and Claude Cowork. Find qualified companies, identify decision makers, generate personalized outreach emails, and produce marketing content (blog, LinkedIn posts, executive case study, sales deck scripts) through a single conversational command.
 
 ## Prerequisites
 
@@ -153,7 +153,7 @@ Copy-Item "$HOME\Documents\pitch-deck.pdf" -Destination collateral\
 
 ## How It Works
 
-The pipeline runs 13 phases using teams of specialized AI agents:
+The pipeline runs 14 phases using teams of specialized AI agents:
 
 | Phase | What Happens | Output |
 |-------|-------------|--------|
@@ -169,7 +169,7 @@ The pipeline runs 13 phases using teams of specialized AI agents:
 | 9 | Compile and priority-rank all decision makers | `decision-makers.md` |
 | 10 | Generate personalized outreach for each DM | `outreach.md` |
 | 11 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
-| 12 | Generate deck scripts and PPTX sales decks | `deck-script.md`, `*.pptx` |
+| 12 | Generate sales deck scripts | `deck-script.md` |
 | 13 | Completion summary | - |
 
 ### Parallel Agent Teams
@@ -207,17 +207,13 @@ All output goes to `./{slug}/`:
 ├── decision-makers/
 │   └── decision-makers.md               # Priority-ranked contacts
 ├── outreach.md                          # Personalized emails
-└── marketing/                           # Marketing content (Branch A)
+└── marketing/                           # Marketing content
     ├── blog.md                          # Thought leadership blog post
     ├── linkedin-posts.md                # 5-7 LinkedIn posts
     ├── case-study.md                    # Executive case study
     ├── deck-script.md                   # General deck script (content + visual direction)
-    ├── deck-presentation.pptx           # 8-slide sales deck (live version)
-    ├── deck-reading.pptx                # 8-slide sales deck (leave-behind)
-    └── prospect-specific/               # Per-company 2-slide decks
-        ├── {company}-deck-script.md     # Prospect deck script
-        ├── {company}-presentation.pptx
-        └── {company}-reading.pptx
+    └── prospect-specific/               # Per-company 2-slide deck scripts
+        └── {company}-deck-script.md     # Prospect deck script
 ```
 
 ### Key Files to Review
@@ -228,8 +224,7 @@ All output goes to `./{slug}/`:
 - **`marketing/blog.md`** - Thought leadership blog post following a 7-part narrative arc
 - **`marketing/case-study.md`** - Publication-ready executive case study (Andersen Consulting format)
 - **`marketing/deck-script.md`** - Reviewable deck script with content and visual direction per slide
-- **`marketing/deck-presentation.pptx`** - 8-slide first-call sales deck for live presentation
-- **`marketing/prospect-specific/`** - Customized 2-slide decks for each qualified company
+- **`marketing/prospect-specific/`** - Customized 2-slide deck scripts for each qualified company
 
 ## The Interview
 
@@ -268,14 +263,10 @@ A 1500-2500 word thought leadership piece following the same narrative arc as th
 ### Executive Case Study
 Publication-ready case study in the Andersen Consulting executive format. Anonymous client, mandatory heading structure, strict cadence requirements. Includes verbatim firm description and contact section.
 
-### Sales Decks (PPTX)
-Real PowerPoint files generated using the Anthropic `pptx` skill (PptxGenJS). The deck-builder uses a two-pass workflow: first it writes a markdown "deck script" capturing content and visual direction per slide, then renders PPTX from the script. Deck scripts are reviewable intermediates — you can edit narrative framing before re-rendering.
+### Sales Deck Scripts
+The deck-scripter produces reviewable markdown "deck scripts" — one section per slide capturing the headline, content, data points, and visual direction. These are content deliverables you can review, edit, and hand to a designer or slide tool to build the final deck.
 
-Two versions of every deck:
-- **Presentation version** (≤20 words/slide) - Visual-heavy, for live delivery
-- **Reading version** (≤60 words/slide) - Expanded narrative, for async sharing
-
-The general deck follows an 8-slide first-call framework backed by sales methodology research (Raskin, Challenger Sale, Corporate Visions, Gong). Prospect-specific 2-slide decks are generated for each qualified company.
+The general deck script follows an 8-slide first-call framework backed by sales methodology research (Raskin, Challenger Sale, Corporate Visions, Gong). A prospect-specific 2-slide deck script is generated for each qualified company.
 
 ## Troubleshooting
 
@@ -293,7 +284,7 @@ The general deck follows an 8-slide first-call framework backed by sales methodo
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.4.0-2026-02-08.md](docs/RELEASE-NOTES-v1.4.0-2026-02-08.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.6.0-2026-07-09.md](docs/RELEASE-NOTES-v1.6.0-2026-07-09.md) for the latest release notes.
 
 ## License
 

@@ -107,7 +107,7 @@ type: deck-script
 deck: general-offering
 slug: {slug}
 date: YYYY-MM-DD
-agent: deck-builder
+agent: deck-scripter
 source_files:
   - ./{slug}/go-to-market/research-brief.md
   - ./{slug}/companies/qualified-companies.md
@@ -162,7 +162,7 @@ company: {Company Name}
 company_slug: {company-slug}
 slug: {slug}
 date: YYYY-MM-DD
-agent: deck-builder
+agent: deck-scripter
 source_files:
   - ./{slug}/go-to-market/research-brief.md
   - ./{slug}/companies/qualified-companies.md
@@ -217,7 +217,7 @@ Each `### Content` block contains the actual words that appear on the slide:
 
 ### Visual Direction Rules
 
-Each `### Visual Direction` block guides the `/pptx` skill on how to render the slide:
+Each `### Visual Direction` block captures the design intent for the slide — enough guidance to build the deck by hand or with a slide tool later:
 
 **Include:**
 - **Layout pattern:** three-column, split-screen, full-bleed, centered, asymmetric, stacked
@@ -230,7 +230,7 @@ Each `### Visual Direction` block guides the `/pptx` skill on how to render the 
 - Exact x/y coordinates or dimensions
 - Font sizes or specific typeface names
 - Hex color values
-- PptxGenJS API calls or code
+- Presentation-library API calls or code
 
 ### Worked Example — Slide 3
 
@@ -251,7 +251,7 @@ The single most impactful number: **$2.4M/year** — bold and dominant.
 
 Source framing: "Manual KYC review costs mid-market insurers an average of $2.4M per year in direct labor alone."
 
-Source: "MIT State of Compliace Report 2025"
+Source: "MIT State of Compliance Report 2025"
 
 ### Visual Direction
 
@@ -309,11 +309,11 @@ Apply these standards to ALL generated decks:
 <output_requirements>
 ## Outputs
 
-**General deck (1 files):**
-- ./{slug}/marketing/deck-script.md (deck script)
+**General deck script (1 file):**
+- ./{slug}/marketing/deck-script.md
 
-**Prospect-specific decks (~30 files for 10 companies):**
-- ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md (deck script)
+**Prospect-specific deck scripts (~10 files for 10 companies):**
+- ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md
 </output_requirements>
 
 <quality_standards>

@@ -227,22 +227,7 @@ Spawn the deck-scripter agent:
 
 Wait for completion.
 
-## PHASE 13: DECK GENERATION
-
-### Pre-dispatch: Install deck dependencies
-
-Run via Bash: `npm list -g pptxgenjs > /dev/null 2>&1 || npm install -g pptxgenjs`
-
-### Generate decks
-
-Spawn the deck-builder agent:
-- subagent_type: "deck-builder"
-- prompt: "[Slug: {slug}] Read ./{slug}/marketing/deck-script.md and ./{slug}/marketing/prospect-specific/{company-slug}-deck-script.md. Invoke /pptx skill to render all PPTX decks. Write general deck to ./{slug}/marketing/{OfferingName-MMM-YYYY}.pptx and prospect-specific decks to ./{slug}/marketing/prospect-specific/{OfferingName-CompanyName-MMM-YYYY}.pptx"
-- description: "Building PPTX decks → ./{slug}/marketing/"
-
-Wait for completion.
-
-## PHASE 14: COMPLETION
+## PHASE 13: COMPLETION
 
 Print a summary with actual counts from the generated files:
 
@@ -267,9 +252,7 @@ Files Created:
 - LinkedIn Posts: ./{slug}/marketing/linkedin-posts.md
 - Case Study: ./{slug}/marketing/case-study.md
 - General Deck Script: ./{slug}/marketing/deck-script.md
-- General Deck: ./{slug}/marketing/{OfferingName-MMM-YYYY}.pptx
 - Prospect Deck Scripts: ./{slug}/marketing/prospect-specific/*-deck-script.md
-- Prospect Decks: ./{slug}/marketing/prospect-specific/*.pptx
 
 Results:
 - Companies Qualified: {count from qualified-companies.md}
@@ -277,7 +260,6 @@ Results:
 - Outreach Messages: {count from outreach.md}
 - Marketing Content: blog + {N} LinkedIn posts + case study
 - Deck Scripts: 1 general + {N} prospect-specific
-- Decks Generated: 1 general + {N} prospect-specific
 
 Next Steps:
 1. Review ./{slug}/decision-makers/decision-makers.md for contact details
