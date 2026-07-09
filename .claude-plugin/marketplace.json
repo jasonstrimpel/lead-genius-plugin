@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "lead-genius",
-      "description": "AI-powered lead generation pipeline. Run /lead-genius to find qualified companies, identify decision makers, and generate personalized outreach emails.",
-      "version": "1.7.0",
+      "description": "AI-powered lead generation pipeline. Run /lead-genius:run to find qualified companies, identify decision makers, and generate personalized outreach emails.",
+      "version": "1.8.0",
       "author": {
         "name": "Jason Strimpel",
         "email": "jason.strimpel@andersenconsulting.com"

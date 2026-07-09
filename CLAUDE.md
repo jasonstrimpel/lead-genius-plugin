@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A Claude Code plugin (v1.7.0) that provides the `/lead-genius` command — a 14-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches sequential research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, sales deck scripts).
+A Claude Code plugin (v1.8.0) that provides the `/lead-genius:run` command — a 14-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches sequential research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, sales deck scripts).
 
 There is no build system, package manager, or test suite. The codebase is entirely markdown files: agent definitions, commands, and skills interpreted by the Claude Code plugin runtime.
 
@@ -12,14 +12,14 @@ There is no build system, package manager, or test suite. The codebase is entire
 
 ```
 .claude-plugin/plugin.json   # Plugin manifest (name, version, tools)
-commands/lead-genius.md       # Main orchestrator — the /lead-genius command
+commands/run.md       # Main orchestrator — the /lead-genius:run command
 agents/                       # 11 specialized agent prompts (markdown + YAML frontmatter)
 skills/executive-outreach/    # Email generation skill with SKILL.md + reference examples
 ```
 
 ## Architecture
 
-The orchestrator (`commands/lead-genius.md`) drives a 14-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
+The orchestrator (`commands/run.md`) drives a 14-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
 
 **Phase flow:** Setup → Collateral Analysis → GTM Interview → Synthesis → Scoring Rubrics → Company Research → Company Synthesis → DM Research → DM Enrichment (ZoomInfo) → DM Compilation → Outreach → Marketing Content → Deck Script Generation → Completion
 
@@ -58,7 +58,7 @@ The orchestrator (`commands/lead-genius.md`) drives a 14-phase sequential pipeli
 When modifying agent prompts, keep these constraints in mind:
 - Each agent's YAML frontmatter defines its `allowed_tools` — only tools listed there are available to that agent.
 - Agent input/output file paths are hardcoded in both the agent definition and the orchestrator. If you change one, update the other.
-- The orchestrator references agents by their filename (minus `.md`). Renaming an agent file requires updating `commands/lead-genius.md`.
+- The orchestrator references agents by their filename (minus `.md`). Renaming an agent file requires updating `commands/run.md`.
 - The `outreach-composer` agent invokes the `/executive-outreach` skill, which lives at `skills/executive-outreach/SKILL.md`. The skill's reference examples are in `skills/executive-outreach/references/examples.md`.
 
 ## Optional User Inputs

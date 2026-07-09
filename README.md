@@ -94,7 +94,7 @@ Then in Claude Code or Claude Cowork:
 1. Open a terminal (or Claude Cowork) and navigate to a project directory where you want your lead generation output
 2. Run the command:
    ```
-   /lead-genius
+   /lead-genius:run
    ```
 3. Answer the interview questions about your offering (~10-15 minutes)
 4. Wait while agent teams research companies and decision makers
@@ -271,13 +271,13 @@ The general deck script follows an 8-slide first-call framework backed by sales 
 
 **Want to re-run just outreach?** Currently the pipeline runs end-to-end. If your research files exist from a previous run, you can manually invoke the outreach-composer agent.
 
-**Plugin not showing up?** Make sure you restarted Claude Code or Claude Cowork after installing. Run `/help` to see if `/lead-genius` appears in your available commands.
+**Plugin not showing up?** Make sure you restarted Claude Code or Claude Cowork after installing. Run `/help` to see if `/lead-genius:run` appears in your available commands.
 
 **WebSearch errors?** Ensure your Anthropic API key is configured. The research agents need web access to find companies and decision makers.
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.7.0-2026-07-09.md](docs/RELEASE-NOTES-v1.7.0-2026-07-09.md) for the latest release notes.
+See [docs/RELEASE-NOTES-v1.8.0-2026-07-09.md](docs/RELEASE-NOTES-v1.8.0-2026-07-09.md) for the latest release notes.
 
 ## License
 

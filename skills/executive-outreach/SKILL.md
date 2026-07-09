@@ -114,7 +114,7 @@ Skip if no authentic relevance exists. Never fabricate.
 
 **Voice**: Peer-to-peer professional. Confident and direct. Respectful. Relationship-focused.
 
-**Structure**: Alternate short sentences (5-8 words) with detail-rich ones (15-20 words). Max 2-3 sentences per paragraph. Line breaks between sections. One idea per sentence. Value focused. Recipient focused.
+**Structure**: Alternate short sentences (5-8 words) with detail-rich ones (10-15 words). Max 2-3 sentences per paragraph. Line breaks between sections. One idea per sentence. Value focused. Recipient focused.
 
 **Word choice**: Active voice only. No hedging. Match technical depth to tier. Always include pronouns ("I'm reaching out" not "Reaching out"). Always use full sentences to preserve formality ("Is it worth a 15 minute call to discuss?" not "Worth a 15 minute call to discuss?")
 
