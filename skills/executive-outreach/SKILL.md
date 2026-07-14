@@ -134,6 +134,7 @@ Skip if no authentic relevance exists. Never fabricate.
 - References to attachments or offers to send materials
 - Mentioning sender's location or travel plans
 - Mentioning anything personal about the target
+- Mentioning anything about fees, timelines or anything financial
 
 ## Required
 
