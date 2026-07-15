@@ -214,7 +214,16 @@ Spawn the deck-scripter agent:
 
 Wait for completion.
 
-## PHASE 13: COMPLETION
+## PHASE 13: MAIL MERGE EXPORT
+
+Spawn the mail-merge-builder agent:
+- subagent_type: "mail-merge-builder"
+- prompt: "[Slug: {slug}] Read ./{slug}/outreach.md. Build a mail-merge Excel file with EXACTLY these columns: First, Last, Email (formatted `First Last <email@example.com>`), Subject (ONE common compelling subject line used for every recipient), Body (the email body with no greeting and no sign-off). Include one row per recipient that has an email address. Write to ./{slug}/mail-merge.xlsx"
+- description: "Building mail merge → ./{slug}/mail-merge.xlsx"
+
+Wait for completion.
+
+## PHASE 14: COMPLETION
 
 Print a summary with actual counts from the generated files:
 
@@ -240,6 +249,7 @@ Files Created:
 - Case Study: ./{slug}/marketing/case-study.md
 - General Deck Script: ./{slug}/marketing/deck-script.md
 - Prospect Deck Scripts: ./{slug}/marketing/prospect-specific/*-deck-script.md
+- Mail Merge: ./{slug}/mail-merge.xlsx
 
 Results:
 - Companies Qualified: {count from qualified-companies.md}
@@ -247,11 +257,13 @@ Results:
 - Outreach Messages: {count from outreach.md}
 - Marketing Content: blog + {N} LinkedIn posts + case study
 - Deck Scripts: 1 general + {N} prospect-specific
+- Mail Merge: {N} recipient rows in mail-merge.xlsx
 
 Next Steps:
 1. Review ./{slug}/decision-makers/decision-makers.md for contact details
 2. Review ./{slug}/outreach.md for personalized emails
-3. Review ./{slug}/marketing/ for content and decks
-4. Customize emails and content as needed before sending/publishing
+3. Import ./{slug}/mail-merge.xlsx into your mail-merge tool to send
+4. Review ./{slug}/marketing/ for content and decks
+5. Customize emails and content as needed before sending/publishing
 === END ===
 ```

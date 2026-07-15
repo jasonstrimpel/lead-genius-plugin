@@ -153,7 +153,7 @@ Copy-Item "$HOME\Documents\pitch-deck.pdf" -Destination collateral\
 
 ## How It Works
 
-The pipeline runs 14 phases using teams of specialized AI agents:
+The pipeline runs 15 phases using teams of specialized AI agents:
 
 | Phase | What Happens | Output |
 |-------|-------------|--------|
@@ -170,7 +170,8 @@ The pipeline runs 14 phases using teams of specialized AI agents:
 | 10 | Generate personalized outreach for each DM | `outreach.md` |
 | 11 | Generate marketing content (blog, LinkedIn, case study) | `blog.md`, `linkedin-posts.md`, `case-study.md` |
 | 12 | Generate sales deck scripts | `deck-script.md` |
-| 13 | Completion summary | - |
+| 13 | Export outreach to a mail-merge Excel file | `mail-merge.xlsx` |
+| 14 | Completion summary | - |
 
 ### Sequential Agents
 
@@ -200,6 +201,7 @@ All output goes to `./{slug}/`:
 ├── decision-makers/
 │   └── decision-makers.md               # Priority-ranked contacts
 ├── outreach.md                          # Personalized emails
+├── mail-merge.xlsx                      # Mail-merge-ready Excel (First, Last, Email, Subject, Body)
 └── marketing/                           # Marketing content
     ├── blog.md                          # Thought leadership blog post
     ├── linkedin-posts.md                # 5-7 LinkedIn posts
@@ -213,6 +215,7 @@ All output goes to `./{slug}/`:
 
 - **`decision-makers.md`** - Your ranked list of contacts with titles, companies, tiers, and email addresses
 - **`outreach.md`** - Ready-to-send personalized emails for each contact
+- **`mail-merge.xlsx`** - Mail-merge-ready Excel: First, Last, Email, one common Subject, Body (no greeting/sign-off)
 - **`qualified-companies.md`** - The top 10 companies with evidence and fit rationale
 - **`marketing/blog.md`** - Thought leadership blog post following a 7-part narrative arc
 - **`marketing/case-study.md`** - Publication-ready executive case study (Andersen Consulting format)
@@ -242,6 +245,20 @@ Each outreach email is:
 - Structured with a clear call-to-action (15-min call, not vague "connect")
 - Enhanced with sender credentials when a bio is provided
 - Flagged with email confidence indicators (verified emails stay clean; pattern-matched and unverified emails get a warning banner and inline tag; contacts with no email get lookup guidance)
+
+## Mail Merge Export
+
+The final phase writes `mail-merge.xlsx` next to `outreach.md` — a clean, five-column sheet ready to drop into a mail-merge tool:
+
+| Column | Contents |
+|--------|----------|
+| First | Recipient first name |
+| Last | Recipient last name |
+| Email | `First Last <email@example.com>` |
+| Subject | One common subject line, shared across all recipients |
+| Body | The email body with no greeting and no sign-off |
+
+One row per recipient who has an email address. Contacts with no email are omitted (they cannot be merged).
 
 ## Marketing Content
 
@@ -277,7 +294,7 @@ The general deck script follows an 8-slide first-call framework backed by sales 
 
 ## Changelog
 
-See [docs/RELEASE-NOTES-v1.8.0-2026-07-09.md](docs/RELEASE-NOTES-v1.8.0-2026-07-09.md) for the latest release notes.
+See [docs/release-notes/RELEASE-NOTES-v1.9.0-2026-07-09.md](docs/release-notes/RELEASE-NOTES-v1.9.0-2026-07-09.md) for the latest release notes.
 
 ## License
 
