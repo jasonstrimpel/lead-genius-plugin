@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A Claude Code plugin (v1.8.0) that provides the `/lead-genius:run` command — a 14-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches sequential research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, sales deck scripts).
+A Claude Code plugin (v1.9.0) that provides the `/lead-genius:run` command — a 15-phase conversational lead generation pipeline. It interviews users about their offering/GTM strategy, dispatches sequential research agents to find companies and decision makers, then generates personalized outreach emails and marketing content (blog, LinkedIn posts, case study, sales deck scripts).
 
 There is no build system, package manager, or test suite. The codebase is entirely markdown files: agent definitions, commands, and skills interpreted by the Claude Code plugin runtime.
 
@@ -13,15 +13,15 @@ There is no build system, package manager, or test suite. The codebase is entire
 ```
 .claude-plugin/plugin.json   # Plugin manifest (name, version, tools)
 commands/run.md       # Main orchestrator — the /lead-genius:run command
-agents/                       # 11 specialized agent prompts (markdown + YAML frontmatter)
+agents/                       # 12 specialized agent prompts (markdown + YAML frontmatter)
 skills/executive-outreach/    # Email generation skill with SKILL.md + reference examples
 ```
 
 ## Architecture
 
-The orchestrator (`commands/run.md`) drives a 14-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
+The orchestrator (`commands/run.md`) drives a 15-phase sequential pipeline. It never does research or writes output itself — it delegates everything to agents via the Task tool.
 
-**Phase flow:** Setup → Collateral Analysis → GTM Interview → Synthesis → Scoring Rubrics → Company Research → Company Synthesis → DM Research → DM Enrichment (ZoomInfo) → DM Compilation → Outreach → Marketing Content → Deck Script Generation → Completion
+**Phase flow:** Setup → Collateral Analysis → GTM Interview → Synthesis → Scoring Rubrics → Company Research → Company Synthesis → DM Research → DM Enrichment (ZoomInfo) → DM Compilation → Outreach → Marketing Content → Deck Script Generation → Mail Merge Export → Completion
 
 **Coordination model:** File-based and fully sequential. Each research stage runs as a single agent that writes one output file (`companies.md`, `dm-research.md`); downstream agents score, enrich, and rank without de-duplicating, because a single sequential pass never produces duplicate entries. No inter-agent messaging.
 
@@ -42,6 +42,7 @@ The orchestrator (`commands/run.md`) drives a 14-phase sequential pipeline. It n
 | `content-writer` | Generate blog, LinkedIn posts, case study | 1x |
 | `deck-scripter` | Write deck scripts (general + prospect-specific) from GTM research | 1x |
 | `outreach-composer` | Generate tier-matched emails via `/executive-outreach` skill | 1x |
+| `mail-merge-builder` | Export outreach emails to a mail-merge Excel file (`mail-merge.xlsx`) | 1x |
 
 ### Key Design Constraints
 
